@@ -3,7 +3,7 @@
 # Params
 
 [![Built with Crystal](https://img.shields.io/badge/built%20with-crystal-000000.svg?style=flat-square)](https://crystal-lang.org/)
-[![Build status](https://img.shields.io/travis/vladfaust/params.cr/master.svg?style=flat-square)](https://travis-ci.org/vladfaust/params.cr)
+[![Build status](https://img.shields.io/travis/com/vladfaust/params.cr/master.svg?style=flat-square)](https://travis-ci.com/vladfaust/params.cr)
 [![Docs](https://img.shields.io/badge/docs-available-brightgreen.svg?style=flat-square)](https://github.vladfaust.com/params.cr)
 [![Releases](https://img.shields.io/github/release/vladfaust/params.cr.svg?style=flat-square)](https://github.com/vladfaust/params.cr/releases)
 [![Awesome](https://github.com/vladfaust/awesome/blob/badge-flat-alternative/media/badge-flat-alternative.svg)](https://github.com/veelenga/awesome-crystal)
