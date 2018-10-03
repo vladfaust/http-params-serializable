@@ -108,6 +108,7 @@ module Params
     macro finished
       {%
         params = params.map do |key, value|
+          type = nil
           nilable = false
           nested = false
 
@@ -126,6 +127,8 @@ module Params
                 else
                   type = node
                 end
+              elsif receiver.is_a?(Path)
+                type = receiver.resolve
               end
             else
               raise "Unsupported param type `#{value}`"
