@@ -172,7 +172,7 @@ module Params
       {% for key, value in params %}
         {% if value["nested"] %}
           class {{key.camelcase.id}}
-            Params.mapping({{value["type"]}}, true)
+            ::Params.mapping({{value["type"]}}, true)
           end
 
           getter {{key.id}} : {{key.camelcase.id}}{{" | Nil = nil".id if value["nilable"]}}
@@ -203,7 +203,7 @@ module Params
             end
           {% end %}
 
-          raise Params::MissingError.new({{key}}, @path) unless @initialized.has_key?({{key}})
+          raise ::Params::MissingError.new({{key}}, @path) unless @initialized.has_key?({{key}})
 
           {% if value["nested"] %}
             @{{key.id}}.try &.ensure_params!
@@ -221,7 +221,7 @@ module Params
               @{{key.id}} = {{value["type"]}}.from_string(value)
               @initialized[{{key}}] = true
             rescue TypeCastError
-              raise Params::TypeCastError.new(value.class.name, {{value["defined_type"].stringify}}, {{key}}, @path)
+              raise ::Params::TypeCastError.new(value.class.name, {{value["defined_type"].stringify}}, {{key}}, @path)
             end
           {% end %}
         {% end %}
@@ -267,7 +267,7 @@ module Params
                     @{{key.id}} = {{value["type"]}}.from_{{i == 0 ? "string".id : "form_data_part".id}}(value)
                     @initialized[{{key}}] = true
                   rescue TypeCastError
-                    raise Params::TypeCastError.new(value.class.name, {{value["defined_type"].stringify}}, {{key}}, @path)
+                    raise ::Params::TypeCastError.new(value.class.name, {{value["defined_type"].stringify}}, {{key}}, @path)
                   end
               {% end %}
             {% end %}
@@ -306,7 +306,7 @@ module Params
                     @{{key.id}} = {{value["type"]}}.new(pull)
                     @initialized[{{key}}] = true
                   rescue ex : JSON::ParseException
-                    raise Params::TypeCastError.new(pull.read_raw.class.name, {{value["defined_type"].stringify}}, {{key}}, @path)
+                    raise ::Params::TypeCastError.new(pull.read_raw.class.name, {{value["defined_type"].stringify}}, {{key}}, @path)
                   end
                 {% end %}
             {% end %}
@@ -322,7 +322,7 @@ module Params
         {% else %}
           def initialize(
             request : HTTP::Request,
-            limit = Params::DEFAULT_MAX_BODY_SIZE,
+            limit = ::Params::DEFAULT_MAX_BODY_SIZE,
             preserve_body = false,
           )
         {% end %}
@@ -354,11 +354,11 @@ module Params
 
             case request.headers["Content-Type"]?
             when /^application\/x-www-form-urlencoded/
-              raise Params::EmptyBodyError.new if request.body.nil?
-              raise Params::MissingContentLengthError.new unless request.content_length
-              raise Params::BodyTooBigError.new(limit) if request.content_length.not_nil! > limit
+              raise ::Params::EmptyBodyError.new if request.body.nil?
+              raise ::Params::MissingContentLengthError.new unless request.content_length
+              raise ::Params::BodyTooBigError.new(limit) if request.content_length.not_nil! > limit
 
-              body = Params.copy_io(request.body.not_nil!, limit) if preserve_body
+              body = ::Params.copy_io(request.body.not_nil!, limit) if preserve_body
 
               HTTP::Params.parse(request.body.not_nil!.gets(limit).not_nil!).each do |key, value|
                 parse_http_query_param(key, value)
@@ -366,11 +366,11 @@ module Params
 
               request.body = body if preserve_body
             when /^multipart\/form-data/
-              raise Params::EmptyBodyError.new if request.body.nil?
-              raise Params::MissingContentLengthError.new unless request.content_length
-              raise Params::BodyTooBigError.new(limit) if request.content_length.not_nil! > limit
+              raise ::Params::EmptyBodyError.new if request.body.nil?
+              raise ::Params::MissingContentLengthError.new unless request.content_length
+              raise ::Params::BodyTooBigError.new(limit) if request.content_length.not_nil! > limit
 
-              body = Params.copy_io(request.body.not_nil!, limit) if preserve_body
+              body = ::Params.copy_io(request.body.not_nil!, limit) if preserve_body
 
               HTTP::FormData.parse(request) do |part|
                 io = part.size ? IO::Memory.new(part.size.not_nil!) : IO::Memory.new
@@ -382,11 +382,11 @@ module Params
 
               request.body = body if preserve_body
             when /^application\/json/
-              raise Params::EmptyBodyError.new if request.body.nil?
-              raise Params::MissingContentLengthError.new unless request.content_length
-              raise Params::BodyTooBigError.new(limit) if request.content_length.not_nil! > limit
+              raise ::Params::EmptyBodyError.new if request.body.nil?
+              raise ::Params::MissingContentLengthError.new unless request.content_length
+              raise ::Params::BodyTooBigError.new(limit) if request.content_length.not_nil! > limit
 
-              body = Params.copy_io(request.body.not_nil!, limit) if preserve_body
+              body = ::Params.copy_io(request.body.not_nil!, limit) if preserve_body
 
               begin
                 parse_json_body(JSON::PullParser.new(request.body.not_nil!))
