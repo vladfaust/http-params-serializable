@@ -20,6 +20,16 @@ struct FormData::SimpleSpec
       end
     end
 
+    it "raises when id is empty" do
+      klass = self
+
+      expect_raises Params::MissingError do
+        klass.new(form_data do |builder|
+          builder.field("id", "")
+        end)
+      end
+    end
+
     it "raises when id is of wrong type" do
       klass = self
 

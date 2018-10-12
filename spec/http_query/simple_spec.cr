@@ -15,5 +15,13 @@ struct HTTPQuery::SimpleSpec
         klass.new(req("/"))
       end
     end
+
+    it "raises when id is empty" do
+      klass = self
+
+      expect_raises Params::MissingError do
+        klass.new(req("/?id="))
+      end
+    end
   end
 end

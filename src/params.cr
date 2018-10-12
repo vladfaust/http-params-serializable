@@ -228,6 +228,10 @@ module Params
       end
 
       protected def parse_resource_param(key, value)
+        if value.empty?
+          return
+        end
+
         case key
         {% for key, value in params %}
           {% keys = [key, key.camelcase, key.underscore, key.underscore.gsub(/_/, "-"), key.camelcase[0...1].downcase + key.camelcase[1..-1]].uniq %}
@@ -246,6 +250,10 @@ module Params
 
       {% for what, i in %w(http_query_param form_data_part) %}
         protected def parse_{{what.id}}(key : String, value : {{i == 0 ? String : HTTP::FormData::Part}})
+          if {{i == 0 ? "value.empty?".id : "value.body.as(IO::Memory).size == 0".id}}
+            return
+          end
+
           case key
           {% for key, value in params %}
             {% keys = [key, key.camelcase, key.underscore, key.underscore.gsub(/_/, "-"), key.camelcase[0...1].downcase + key.camelcase[1..-1]].uniq %}
