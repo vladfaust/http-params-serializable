@@ -49,8 +49,8 @@ module Params
     getter target : String
 
     # :nodoc:
-    def initialize(@source : String, @target : String, @name : String, @path : Array(String)? = nil)
-      super(@name, @path, "Couldn't cast parameter `#{pretty_path}` from `#{@source}` to `#{@target}`")
+    def initialize(value, @source : String, @target : String, @name : String, @path : Array(String)? = nil)
+      super(@name, @path, "Couldn't cast parameter `#{pretty_path}` from \"#{value}\" (`#{@source}`) to `#{@target}`")
     end
   end
 

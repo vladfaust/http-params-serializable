@@ -237,7 +237,7 @@ module Params
               @{{key.id}} = {{value["type"]}}.from_string(value)
               @initialized[{{key}}] = true
             rescue TypeCastError
-              raise ::Params::TypeCastError.new(value.class.name, {{value["defined_type"].stringify}}, {{key}}, @path)
+              raise ::Params::TypeCastError.new(value, value.class.name, {{value["defined_type"].stringify}}, {{key}}, @path)
             end
           {% end %}
         {% end %}
@@ -283,7 +283,7 @@ module Params
                     @{{key.id}} = {{value["type"]}}.from_{{i == 0 ? "string".id : "form_data_part".id}}(value)
                     @initialized[{{key}}] = true
                   rescue TypeCastError
-                    raise ::Params::TypeCastError.new(value.class.name, {{value["defined_type"].stringify}}, {{key}}, @path)
+                    raise ::Params::TypeCastError.new(value, value.class.name, {{value["defined_type"].stringify}}, {{key}}, @path)
                   end
               {% end %}
             {% end %}
@@ -322,7 +322,8 @@ module Params
                     @{{key.id}} = {{value["type"]}}.new(pull)
                     @initialized[{{key}}] = true
                   rescue ex : JSON::ParseException
-                    raise ::Params::TypeCastError.new(pull.read_raw.class.name, {{value["defined_type"].stringify}}, {{key}}, @path)
+                    value = pull.read_raw
+                    raise ::Params::TypeCastError.new(value, value.class.name, {{value["defined_type"].stringify}}, {{key}}, @path)
                   end
                 {% end %}
             {% end %}
