@@ -65,7 +65,7 @@ struct MyParams
         random_numbers: Array(UInt64) | Nil, # Nilable arrays
 
         admin:   Bool,
-        balance: Float64,
+        balance: Union(Float64 | Null), # Explicit `null` differs from `nil`
       } | Nil, # Nilable nesting
     },
   })
@@ -107,7 +107,7 @@ An example of a valid JSON body would be:
     "deep": {
       "randomNumbers": [1, 2],
       "admin": true,
-      "balance": 250.0
+      "balance": null
     }
   }
 }

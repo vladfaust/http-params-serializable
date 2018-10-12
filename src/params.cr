@@ -123,26 +123,42 @@ module Params
                 type = receiver
               elsif receiver.is_a?(Generic)
                 if (node = receiver.resolve).union?
-                  raise "Params having union of types aren't supported yet (given `#{value}`)"
+                  raise "Complex union params with pipe syntax aren't supported. Use explicit `Union(TypeA, TypeB)` syntax instead. Given `#{value}`"
                 else
                   type = node
                 end
+              elsif receiver.is_a?(Call)
+                raise "`Call | Nil` params definition syntax is not supported. Use explicit `Union(TypeA, TypeB)` syntax instead. Given `#{value}`"
               elsif receiver.is_a?(Path)
                 type = receiver.resolve
+              else
+                raise "Bug: unhandled receiver type `#{receiver}`"
               end
             else
-              raise "Unsupported param type `#{value}`"
+              if value.name.stringify == "|" &&
+                 value.args.size == 1 &&
+                 value.args[0].resolve == Null
+                raise "Pipe union with Null syntax is not supported. Use explicit `Union(Type, Null)` syntax instead. Given `#{value}`"
+              else
+                raise "Bug: unhandled param definition scenario: `#{value}`"
+              end
             end
           elsif value.is_a?(Generic)
-            if value.resolve.union?
-              # I.e. `Union(Int32 | Nil)`
-              if value.resolve.nilable?
-                values = value.resolve.union_types.select { |t| t != Nil }
-                raise "Params having union of types aren't supported yet (given `#{value}`)" if values.size > 1
-                type = values[0]
-                nilable = true
+            if (union = value.resolve).union?
+              if union.union_types.any? { |t| t < Enumerable }
+                if union.nilable? && union.union_types.size == 2
+                  nilable = true
+                  type = union.union_types.find { |t| t != Nil }
+                else
+                  raise "Cannot define a param with Enumerable within a Union. Given: `#{value.resolve}`"
+                end
               else
-                raise "Params having union of types aren't supported yet (given `#{value}`)"
+                # I.e. `Union(Int32 | Nil)`
+                if value.resolve.nilable?
+                  nilable = true
+                end
+
+                type = value.resolve
               end
             else
               # I.e. `Array(String)`
