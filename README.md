@@ -32,7 +32,7 @@ Add this to your application's `shard.yml`:
 dependencies:
   params:
     github: vladfaust/params.cr
-    version: ~> 0.1.1
+    version: ~> 0.1.2
 ```
 
 This shard follows [Semantic Versioning v2.0.0](http://semver.org/), so check [releases](https://github.com/vladfaust/prism/releases) and change the `version` accordingly.
