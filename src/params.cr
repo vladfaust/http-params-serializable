@@ -240,7 +240,7 @@ module Params
             begin
               @{{key.id}} = {{value["type"]}}.from_string(value)
               @initialized[{{key}}] = true
-            rescue TypeCastError
+            rescue ::TypeCastError
               raise ::Params::TypeCastError.new(value, value.class.name, {{value["defined_type"].stringify}}, {{key}}, @path)
             end
           {% end %}
@@ -290,7 +290,7 @@ module Params
                   begin
                     @{{key.id}} = {{value["type"]}}.from_{{i == 0 ? "string".id : "form_data_part".id}}(value)
                     @initialized[{{key}}] = true
-                  rescue TypeCastError
+                  rescue ::TypeCastError
                     raise ::Params::TypeCastError.new(value, value.class.name, {{value["defined_type"].stringify}}, {{key}}, @path)
                   end
               {% end %}
