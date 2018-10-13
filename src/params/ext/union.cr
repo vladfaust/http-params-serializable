@@ -15,16 +15,4 @@ struct Union(*T)
   def self.from_form_data_part(value : HTTP::FormData::Part)
     from_string(value.body.gets(value.size).not_nil!)
   end
-
-  def self.new(pull : JSON::PullParser)
-    {% for type in T %}
-      begin
-        v = {{type}}.new(pull)
-        return v
-      rescue JSON::ParseException | TypeCastError
-      end
-    {% end %}
-
-    raise TypeCastError.new
-  end
 end

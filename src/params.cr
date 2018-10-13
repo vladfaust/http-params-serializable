@@ -327,7 +327,20 @@ module Params
                   {% end %}
                 {% else %}
                   begin
-                    @{{key.id}} = {{value["type"]}}.new(pull)
+                    # `Union(Type | Null | Nil)` will return `Nil` on `null`,
+                    # that's not what we want. We want `Null` instead.
+                    {% if value["type"].union? && value["type"].union_types.includes?(Null) %}
+                      value = {{value["type"]}}.new(pull)
+
+                      if value.nil?
+                        @{{key.id}} = Null.new
+                      else
+                        @{{key.id}} = value
+                      end
+                    {% else %}
+                      @{{key.id}} = {{value["type"]}}.new(pull)
+                    {% end %}
+
                     @initialized[{{key}}] = true
                   rescue ex : JSON::ParseException
                     value = pull.read_raw
