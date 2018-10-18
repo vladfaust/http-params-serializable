@@ -337,6 +337,8 @@ module Params
                       else
                         @{{key.id}} = value
                       end
+                    {% elsif value["nilable"] %}
+                      @{{key.id}} = ({{value["type"]}} | Nil).new(pull)
                     {% else %}
                       @{{key.id}} = {{value["type"]}}.new(pull)
                     {% end %}
