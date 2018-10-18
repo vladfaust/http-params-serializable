@@ -43,8 +43,11 @@ module Params
   #       #
   #       # So, "the_email", "TheEmail", "theEmail" and "the-email" is expected for this param
   #       the_email: String,
-  #       bio:       String | Nil,  # Alternative syntax for nilable params
-  #       tags:      Array(String), # Arrays are supported too
+  #       # This param can have explicit Null value
+  #       # i.e. "null" string for query-like params
+  #       # and `null` value for JSON.
+  #       bio:  Union(String | Nil | Null),
+  #       tags: Array(String), # Arrays are supported too
   #
   #       # Nesting is possible with ∞ levels
   #       deep: {

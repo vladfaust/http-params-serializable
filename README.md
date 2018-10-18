@@ -57,8 +57,11 @@ struct MyParams
     # Therefore, "additional_data", "AdditionalData", "additionalData" and "additional-data" is OK
     additional_data: {
       email: String,
-      bio:       String | Nil,  # Alternative syntax for nilable params
-      tags:      Array(String), # Arrays are supported too
+      # This param can have explicit Null value
+      # i.e. "null" string for query-like params
+      # and `null` value for JSON.
+      bio: Union(String | Nil | Null),
+      tags: Array(String), # Arrays are supported too
 
       # Nesting is possible with ∞ levels
       deep: {
