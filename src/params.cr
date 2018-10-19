@@ -348,8 +348,15 @@ module Params
 
                     @initialized[{{key}}] = true
                   rescue ex : JSON::ParseException
-                    value = pull.read_raw
-                    raise ::Params::TypeCastError.new(value, value.class.name, {{value["defined_type"].stringify}}, {{key}}, @path)
+                    value = "null"
+                    klass = "Null"
+
+                    pull.read_null_or do
+                      value = pull.read_raw
+                      klass = value.class.name
+                    end
+
+                    raise ::Params::TypeCastError.new(value, klass, {{value["defined_type"].stringify}}, {{key}}, @path)
                   end
                 {% end %}
             {% end %}
