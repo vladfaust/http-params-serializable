@@ -50,7 +50,7 @@ module Params
 
     # :nodoc:
     def initialize(value, @source : String, @target : String, @name : String, @path : Array(String)? = nil)
-      super(@name, @path, "Couldn't cast parameter `#{pretty_path}` from \"#{value}\" (`#{@source}`) to `#{@target}`")
+      super(@name, @path, "Couldn't cast value '#{value}' from #{@source} to #{@target} when parsing parameter '#{pretty_path}'")
     end
   end
 
@@ -58,7 +58,7 @@ module Params
   class MissingError < ParamError
     # :nodoc:
     def initialize(@name : String, @path : Array(String)? = nil)
-      super(@name, @path, "Parameter `#{pretty_path}` is missing")
+      super(@name, @path, "Parameter '#{pretty_path}' is missing")
     end
   end
 
