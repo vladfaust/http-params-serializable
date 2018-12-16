@@ -1,5 +1,5 @@
-name: params
-version: 0.1.3
+name: http-params-serializable
+version: 0.2.0
 
 authors:
   - Vlad Faust <mail@vladfaust.com>
