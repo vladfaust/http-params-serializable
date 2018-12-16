@@ -1,5 +1,6 @@
 {% for bytes in %w(32 64) %}
   @[HTTP::Params::Serializable::Scalar]
+  # :nodoc:
   struct Float{{bytes.id}}
     # Put `self` as an HTTP param into the *builder* at *key*.
     def to_http_param(builder : HTTP::Params::Builder, key : String)

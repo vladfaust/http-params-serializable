@@ -1,4 +1,5 @@
 struct Tuple
+  # Similar to `Array#[](range)`, but for a tuple.
   def [](range : Range(Int, Int))
     result = Tuple.new
 

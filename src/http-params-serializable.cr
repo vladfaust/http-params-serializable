@@ -1,6 +1,8 @@
 require "http/params"
 require "./http-params-serializable/*"
 
+# Including this module will make an object serializable to and from HTTP params query.
+# It adds a `.new(http_param : String)` and `#to_http_param` methods.
 module HTTP::Params::Serializable
   # Build query path from a tuple of *path* elements.
   #
@@ -111,6 +113,7 @@ module HTTP::Params::Serializable
     end
   end
 
+  # :nodoc:
   protected def initialize(*, _http_params_query : String, _http_params_path : Tuple)
     # There will be temp containers for actual param values
     {% for ivar in @type.instance_vars %}

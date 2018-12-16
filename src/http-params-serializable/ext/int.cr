@@ -1,6 +1,7 @@
 {% for unsigned in [true, false] %}
   {% for bytes in %w(8 16 32 64) %}
     @[HTTP::Params::Serializable::Scalar]
+    # :nodoc:
     struct {{"U".id if unsigned}}Int{{bytes.id}}
       # Put `self` as an HTTP param into the *builder* at *key*.
       def to_http_param(builder : HTTP::Params::Builder, key : String)

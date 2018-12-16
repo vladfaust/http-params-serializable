@@ -1,3 +1,4 @@
+# :nodoc:
 class Array(T)
   # Serialalize `self` into an HTTP params query with the *builder* at *key*,
   # optionally convering underlying elements with *converter*.

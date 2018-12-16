@@ -1,4 +1,5 @@
 @[HTTP::Params::Serializable::Scalar]
+# :nodoc:
 struct Bool
   # Put `self` as an HTTP param into the *builder* at *key*.
   def to_http_param(builder : HTTP::Params::Builder, key : String)

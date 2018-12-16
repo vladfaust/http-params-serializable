@@ -1,3 +1,4 @@
+# :nodoc:
 struct Union(*T)
   def self.new(http_param value : String)
     {% if @type.nilable? %}
