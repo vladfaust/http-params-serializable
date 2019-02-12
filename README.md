@@ -8,7 +8,7 @@
 [![vladfaust.com](https://img.shields.io/badge/style-.com-lightgrey.svg?longCache=true&style=flat-square&label=vladfaust&colorB=0a83d8)](https://vladfaust.com)
 [![Patrons count](https://img.shields.io/badge/dynamic/json.svg?label=patrons&url=https://www.patreon.com/api/user/11296360&query=$.included[0].attributes.patron_count&style=flat-square&colorB=red&maxAge=86400)](https://www.patreon.com/vladfaust)
 
-The HTTP params parsing module for [Crysal](https://crystal-lang.org/).
+The HTTP params serialization module for [Crystal](https://crystal-lang.org/).
 
 ## Supporters
 
@@ -50,6 +50,7 @@ end
 
 params = MyParams.from_query("id=42")
 pp params.id.class # => Int32
+pp params.to_query # => "id=42"
 
 MyParams.from_query("")
 # HTTP::Params::Serializable::ParamMissingError: Parameter "id" is missing
@@ -80,6 +81,7 @@ end
 
 params = MyParams.from_query("foo[]=42.0&foo[]=43.5")
 pp params.foo[1] # => 43.5
+pp params.to_query # => "foo[]=42.0&foo[]=43.5"
 ```
 
 Nested params are supported:
@@ -97,6 +99,7 @@ end
 
 params = MyParams.from_query("nested[foo]=true")
 pp params.nested.foo # => true
+pp params.to_query # => "nested[foo]=true"
 ```
 
 Nested arrays are supported as well:
@@ -114,11 +117,77 @@ end
 
 params = MyParams.from_query("nested[0][foo][]=1&nested[0][foo][]=2")
 pp params.nested.first.foo.first # => [1, 2]
+pp params.to_query # ditto
+```
+
+It is also possible to alter the serialization behaviour with [`@[HTTP::Param]`](http://github.vladfaust.com/http-params-serializable/HTTP/Param.html) annotation. It currently supports two options: `:key` and `:converter`. Read more in [docs](http://github.vladfaust.com/http-params-serializable/HTTP/Param.html).
+
+```crystal
+struct MyParams
+  include HTTP::Params::Serializable
+
+  @[HTTP::Param(key: "the___Time", converter: Time::EpochConverter)]
+  getter time : Time
+end
+
+params = MyParams.from_query("the___Time=1544958806")
+pp params.time # => 2018-12-16 11:13:26.0 UTC
+pp params.to_query # => "the___Time=1544958806"
+```
+
+### Custom serialization rules
+
+If you want to know-how to make custom objects serializable, read [the Custom serialization rules Wiki page](https://github.com/vladfaust/http-params-serializable/wiki/Custom-serialization-rules).
+
+### Usage with [Onyx::REST](https://onyxframework.org)
+
+[Onyx::REST](https://github.com/onyxframework/rest) comes with an Action module, which implements common param sources parsing, which uses this shard under the hood:
+
+```crystal
+require "onyx/rest"
+
+struct UpdateUser
+  include Onyx::REST::Action
+
+  params do
+    # Path params ("/users/:id")
+    path do
+      type id : Int32
+    end
+
+    # Query params ("/users/42?password=secret")
+    # Nesting and arrays natively supported
+    query do
+      type password : String
+      type foo do
+        type bar : Int32?
+      end
+    end
+
+    # Full support for form-data payloads
+    form do
+      type username : String?
+      type email : String?
+    end
+  end
+
+  errors do
+    type Forbidden(403)
+  end
+
+  def call
+    user = Onyx.query(User.where(id: params.path.id))
+    raise Forbidden.new unless user.password == params.query.password
+  end
+end
+
+Onyx.put "/users/:id", UpdateUser
+Onyx.listen
 ```
 
 ### Usage with [Kemal](http://kemalcr.com)
 
-It's pretty easy to make your applications more safe:
+It's pretty simple to make your Kemal applications more safe:
 
 ```crystal
 require "kemal"
