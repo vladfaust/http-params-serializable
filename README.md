@@ -30,7 +30,7 @@ This module is intended to provide a simple and convenient way to make an object
 dependencies:
   http-params-serializable:
     github: vladfaust/http-params-serializable
-    version: ~> 0.2.0
+    version: ~> 0.3.0
 ```
 
 2. Run `shards install`
