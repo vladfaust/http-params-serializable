@@ -54,10 +54,16 @@ module HTTP::Params::Serializable
   end
 
   # Serialalize `self` into an HTTP params query with the *builder* at *key*.
+  # Instance variables are by default seralized under "camelCased" keys,
+  # unless explicitly specified with `@[HTTP::Param(key: "mykey")` (see `HTTP::Param`).
   def to_http_param(builder : Builder, key : String? = nil)
     {% for ivar, i in @type.instance_vars %}
       if var = @{{ivar.name}}
-        var_key = key ? key + "[{{ivar.name}}]" : {{ivar.name.stringify}}
+        {%
+          key = ((ann = ivar.annotation(HTTP::Param)) && ann[:key]) || (ivar.name.stringify.underscore[0..0] + ivar.name.stringify.camelcase[1..-1])
+        %}
+
+        var_key = key ? key + "[{{key.id}}]" : {{key}}
 
         {% scalar = ivar.type.annotation(Scalar) || (ivar.type.union? && ivar.type.union_types.all? { |t| t.annotation(Scalar) || t == Nil }) %}
 
@@ -138,10 +144,28 @@ module HTTP::Params::Serializable
         {% for ivar in @type.instance_vars %}
           # Scalar type is the one with `HTTP::Params::Serializable::Scalar` annotation,
           # or a union with all types either having this annotation or being `Nil`
-          {% scalar = ivar.type.annotation(Scalar) || (ivar.type.union? && ivar.type.union_types.all? { |t| t.annotation(Scalar) || t == Nil }) %}
+          {%
+            scalar = ivar.type.annotation(Scalar) || (ivar.type.union? && ivar.type.union_types.all? { |t| t.annotation(Scalar) || t == Nil })
+
+            default_keys = [
+              ivar.name.stringify,                                        # foo_bar
+              ivar.name.stringify.underscore,                             # foo_bar
+              ivar.name.stringify.camelcase,                              # FooBar
+              ivar.name.underscore.gsub(/_/, "-"),                        # foo-bar
+              ivar.name.underscore.split('_').map(&.camelcase).join('-'), # Foo-Bar
+              ivar.name.stringify.underscore[0..0] +
+              ivar.name.stringify.camelcase[1..-1], # fooBar
+            ].uniq
+
+            if (ann = ivar.annotation(HTTP::Param)) && ann[:key]
+              keys = [ann[:key]]
+            else
+              keys = default_keys
+            end
+          %}
 
           # Explicit key match, e.g. `"foo"` or `"[foo]"`
-          when {{ivar.name.stringify}}, "[{{ivar.name}}]"
+          when {{keys.map(&.id.stringify.stringify).uniq.join(", ").id}}, {{keys.map { |k| "[#{k.id}]".stringify }.uniq.join(", ").id}}
             {% if scalar %}
               begin
                 # FIXME: Dry with private macro. Currently ivar.type turns into Expressions
@@ -174,7 +198,7 @@ module HTTP::Params::Serializable
               raise ExplicitKeyForNonScalarParam.new(_http_params_path + { {{ivar.name.stringify}} }, {{ivar.type}})
             {% end %}
           # Match on the key plus some nested (`"[..."`) content
-          when /^\[?{{ivar.name}}\]?(?<nested>\[.+)/
+          when {{keys.map { |k| "/^\\[?#{k.id}\\]?(?<nested>\\[.+)/" }.uniq.join(", ").id}}
             {% if scalar %}
               # If `foo` is a scalar, say, `Int32`, then `foo[something]=42` makes no sense
               raise NestedContentForScalarParamError.new(_http_params_path + { {{ivar.name.stringify}} }, HTTP::Params::Serializable.split_path($~["nested"]), {{ivar.type}})

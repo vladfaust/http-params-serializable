@@ -3,6 +3,9 @@ module HTTP
   #
   # Options:
   #
+  # * *key* -- a key to use for (de)serializing.  By default all possible variations
+  # of the instance variable name are used (i.e. `"foo_bar"`, `"fooBar"`, `"FooBar"`,
+  # `"foo-bar"` and `"Foo-Bar"` for a `@foo_bar` variable)
   # * *converter* -- a converter to use for casting.
   # Some types implement converter forwarding, for example, `Array`:
   #
@@ -13,11 +16,11 @@ module HTTP
   # struct MyParams
   #   include HTTP::Params::Serializable
   #
-  #   @[HTTP::Param(converter: Time::EpochConverter)]
+  #   @[HTTP::Param(converter: Time::EpochConverter, key: "theTime")]
   #   getter time : Array(Time)
   # end
   #
-  # params = MyParams.new("time[]=1544958806")
+  # params = MyParams.new("theTime[]=1544958806")
   # pp params.time.class # => Array(Time)
   # ```
   annotation Param

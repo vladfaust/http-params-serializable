@@ -36,7 +36,7 @@ describe NestedParams do
       subnested.optional.should be_nil
 
       # Subnested is not nil itself, but it's not rendered due to being empty
-      v.to_http_param.should eq escape("nested[required]=true&nested[required_array][]=42")
+      v.to_http_param.should eq escape("nested[required]=true&nested[requiredArray][]=42")
     end
 
     # The keys are checked de-facto, thus "nested[]=" key is never validated, therefore skipped

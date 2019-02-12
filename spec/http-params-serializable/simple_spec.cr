@@ -2,7 +2,10 @@ require "../spec_helper"
 
 struct SimpleParams
   include HTTP::Params::Serializable
+
   getter required : Int32
+
+  @[HTTP::Param(key: "fooBar")]
   getter optional : Bool | Char | String | Int32 | Float32 | Nil
 end
 
@@ -56,42 +59,42 @@ describe SimpleParams do
 
   describe "optional" do
     it "casts to Bool" do
-      v = SimpleParams.new("required=42&optional=true")
+      v = SimpleParams.new("required=42&fooBar=true")
       v.optional.should be_a(Bool)
       v.optional.should eq true
-      v.to_http_param.should eq "required=42&optional=true"
+      v.to_http_param.should eq "required=42&fooBar=true"
     end
 
     it "casts to Char" do
-      v = SimpleParams.new("required=42&optional=t")
+      v = SimpleParams.new("required=42&fooBar=t")
       v.optional.should be_a(Char)
       v.optional.should eq 't'
-      v.to_http_param.should eq "required=42&optional=t"
+      v.to_http_param.should eq "required=42&fooBar=t"
     end
 
     it "casts to String" do
-      v = SimpleParams.new("required=42&optional=foo")
+      v = SimpleParams.new("required=42&fooBar=foo")
       v.optional.should be_a(String)
       v.optional.should eq "foo"
-      v.to_http_param.should eq "required=42&optional=foo"
+      v.to_http_param.should eq "required=42&fooBar=foo"
     end
 
     it "casts to Float32 instead of Int32" do
-      v = SimpleParams.new("required=42&optional=42")
+      v = SimpleParams.new("required=42&fooBar=42")
       v.optional.should be_a(Float32)
       v.optional.should eq 42.0
-      v.to_http_param.should eq "required=42&optional=42.0"
+      v.to_http_param.should eq "required=42&fooBar=42.0"
     end
 
     it "casts to Float32" do
-      v = SimpleParams.new("required=42&optional=-42.1")
+      v = SimpleParams.new("required=42&fooBar=-42.1")
       v.optional.should be_a(Float32)
       v.optional.should eq -42.1_f32
-      v.to_http_param.should eq "required=42&optional=-42.1"
+      v.to_http_param.should eq "required=42&fooBar=-42.1"
     end
 
     it "stays nil on empty" do
-      v = SimpleParams.new("required=42&optional=")
+      v = SimpleParams.new("required=42&fooBar=")
       v.optional.should be_nil
       v.to_http_param.should eq "required=42"
     end

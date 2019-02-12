@@ -26,7 +26,7 @@ end
 
 describe TimeParams do
   it do
-    v = TimeParams.new("epoch_time=1544958806&nilable_epoch_time=1544958806&array_epoch_time[]=1544958806&nilable_array_epoch_time[0]=1544958806&nilable_array_nilable_epoch_time[]=1544958806&array_nilable_epoch_time[0]=")
+    v = TimeParams.new("epoch_time=1544958806&nilableEpochTime=1544958806&ArrayEpochTime[]=1544958806&nilable-array-epoch-time[0]=1544958806&Nilable-Array-Nilable-Epoch-Time[]=1544958806&array_nilable_epoch_time[0]=")
 
     v.epoch_time.should eq Time.unix(1544958806)
     v.nilable_epoch_time.should eq Time.unix(1544958806)
@@ -35,7 +35,7 @@ describe TimeParams do
     v.array_nilable_epoch_time.should eq [nil]
     v.nilable_array_nilable_epoch_time.should eq [Time.unix(1544958806)]
 
-    v.to_http_param.should eq escape("epoch_time=1544958806&nilable_epoch_time=1544958806&array_epoch_time[]=1544958806&nilable_array_epoch_time[]=1544958806&nilable_array_nilable_epoch_time[]=1544958806")
+    v.to_http_param.should eq escape("epochTime=1544958806&nilableEpochTime=1544958806&arrayEpochTime[]=1544958806&nilableArrayEpochTime[]=1544958806&nilableArrayNilableEpochTime[]=1544958806")
   end
 
   it "raises on type mismatch" do
