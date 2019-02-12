@@ -42,44 +42,43 @@ Simple example:
 ```crystal
 require "http-params-serializable"
 
-# Don't use "Params" name for your params containers, because it currently causes a bug.
-struct MyParams
+struct Params
   include HTTP::Params::Serializable
   getter id : Int32
 end
 
-params = MyParams.from_query("id=42")
+params = Params.from_query("id=42")
 pp params.id.class # => Int32
 pp params.to_query # => "id=42"
 
-MyParams.from_query("")
+Params.from_query("")
 # HTTP::Params::Serializable::ParamMissingError: Parameter "id" is missing
 
-MyParams.from_query("id=foo")
+Params.from_query("id=foo")
 # HTTP::Params::Serializable::ParamTypeCastError: Parameter "id" cannot be cast from "foo" to Int32
 ```
 
 As you may expect, unions work as well:
 
 ```crystal
-struct MyParams
+struct Params
   include HTTP::Params::Serializable
   getter id : Int32 | Nil
 end
 
-params = MyParams.from_query("id=")
+params = Params.from_query("id=")
 pp params.id # => nil
 ```
 
 Arrays are supported too:
 
 ```crystal
-struct MyParams
+struct Params
   include HTTP::Params::Serializable
   getter foo : Array(Float32)
 end
 
-params = MyParams.from_query("foo[]=42.0&foo[]=43.5")
+params = Params.from_query("foo[]=42.0&foo[]=43.5")
 pp params.foo[1] # => 43.5
 pp params.to_query # => "foo[]=42.0&foo[]=43.5"
 ```
@@ -87,7 +86,7 @@ pp params.to_query # => "foo[]=42.0&foo[]=43.5"
 Nested params are supported:
 
 ```crystal
-struct MyParams
+struct Params
   include HTTP::Params::Serializable
   getter nested : Nested
 
@@ -97,7 +96,7 @@ struct MyParams
   end
 end
 
-params = MyParams.from_query("nested[foo]=true")
+params = Params.from_query("nested[foo]=true")
 pp params.nested.foo # => true
 pp params.to_query # => "nested[foo]=true"
 ```
@@ -105,7 +104,7 @@ pp params.to_query # => "nested[foo]=true"
 Nested arrays are supported as well:
 
 ```crystal
-struct MyParams
+struct Params
   include HTTP::Params::Serializable
   getter nested : Array(Nested)
 
@@ -115,7 +114,7 @@ struct MyParams
   end
 end
 
-params = MyParams.from_query("nested[0][foo][]=1&nested[0][foo][]=2")
+params = Params.from_query("nested[0][foo][]=1&nested[0][foo][]=2")
 pp params.nested.first.foo.first # => [1, 2]
 pp params.to_query # ditto
 ```
@@ -123,14 +122,14 @@ pp params.to_query # ditto
 It is also possible to alter the serialization behaviour with [`@[HTTP::Param]`](http://github.vladfaust.com/http-params-serializable/HTTP/Param.html) annotation. It currently supports two options: `:key` and `:converter`. Read more in [docs](http://github.vladfaust.com/http-params-serializable/HTTP/Param.html).
 
 ```crystal
-struct MyParams
+struct Params
   include HTTP::Params::Serializable
 
   @[HTTP::Param(key: "the___Time", converter: Time::EpochConverter)]
   getter time : Time
 end
 
-params = MyParams.from_query("the___Time=1544958806")
+params = Params.from_query("the___Time=1544958806")
 pp params.time # => 2018-12-16 11:13:26.0 UTC
 pp params.to_query # => "the___Time=1544958806"
 ```
@@ -193,14 +192,14 @@ It's pretty simple to make your Kemal applications more safe:
 require "kemal"
 require "http-params-serializable"
 
-struct MyParams
+struct Params
   include HTTP::Params::Serializable
   getter id : Int32
 end
 
 get "/" do |env|
   if query = env.request.query
-    query_params = MyParams.from_query(query)
+    query_params = Params.from_query(query)
 
     if query_params.id > 0
       "#{query_params.id} is positive\n"
