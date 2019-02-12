@@ -258,10 +258,16 @@ module HTTP::Params::Serializable
 
     {% for ivar in @type.instance_vars %}
       {% if ivar.type.nilable? %}
-        @{{ivar.name}} = {{ivar.name}}_value
+        {% if ivar.has_default_value? %}
+          @{{ivar.name}} = {{ivar.name}}_value || {{ivar.default_value}}
+        {% else %}
+          @{{ivar.name}} = {{ivar.name}}_value
+        {% end %}
       {% else %}
         if {{ivar.name}}_value.nil?
-          raise ParamMissingError.new(_http_params_path + { {{ivar.name.stringify}} })
+          {% unless ivar.has_default_value? %}
+            raise ParamMissingError.new(_http_params_path + { {{ivar.name.stringify}} })
+          {% end %}
         else
           @{{ivar.name}} = {{ivar.name}}_value.not_nil!
         end
