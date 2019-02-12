@@ -14,7 +14,7 @@ class URI
   end
 
   # Parse `URI` from an HTTP param.
-  def self.new(http_param value : String)
+  def self.from_http_param(value : String)
     return URI.parse(value)
   end
 end

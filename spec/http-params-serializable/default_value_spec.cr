@@ -9,13 +9,13 @@ end
 
 describe ParamsWithDefaultValue do
   it do
-    v = ParamsWithDefaultValue.new("required=41")
+    v = ParamsWithDefaultValue.from_query("required=41")
     v.required.should eq 41
     v.optional.should eq 42
   end
 
   it do
-    v = ParamsWithDefaultValue.new("required=41&optional=43")
+    v = ParamsWithDefaultValue.from_query("required=41&optional=43")
     v.required.should eq 41
     v.optional.should eq 43
   end

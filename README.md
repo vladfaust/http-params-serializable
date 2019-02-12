@@ -48,13 +48,13 @@ struct MyParams
   getter id : Int32
 end
 
-params = MyParams.new("id=42")
+params = MyParams.from_query("id=42")
 pp params.id.class # => Int32
 
-MyParams.new("")
+MyParams.from_query("")
 # HTTP::Params::Serializable::ParamMissingError: Parameter "id" is missing
 
-MyParams.new("id=foo")
+MyParams.from_query("id=foo")
 # HTTP::Params::Serializable::ParamTypeCastError: Parameter "id" cannot be cast from "foo" to Int32
 ```
 
@@ -66,7 +66,7 @@ struct MyParams
   getter id : Int32 | Nil
 end
 
-params = MyParams.new("id=")
+params = MyParams.from_query("id=")
 pp params.id # => nil
 ```
 
@@ -78,7 +78,7 @@ struct MyParams
   getter foo : Array(Float32)
 end
 
-params = MyParams.new("foo[]=42.0&foo[]=43.5")
+params = MyParams.from_query("foo[]=42.0&foo[]=43.5")
 pp params.foo[1] # => 43.5
 ```
 
@@ -95,7 +95,7 @@ struct MyParams
   end
 end
 
-params = MyParams.new("nested[foo]=true")
+params = MyParams.from_query("nested[foo]=true")
 pp params.nested.foo # => true
 ```
 
@@ -112,7 +112,7 @@ struct MyParams
   end
 end
 
-params = MyParams.new("nested[0][foo][]=1&nested[0][foo][]=2")
+params = MyParams.from_query("nested[0][foo][]=1&nested[0][foo][]=2")
 pp params.nested.first.foo.first # => [1, 2]
 ```
 
@@ -131,7 +131,7 @@ end
 
 get "/" do |env|
   if query = env.request.query
-    query_params = MyParams.new(query)
+    query_params = MyParams.from_query(query)
 
     if query_params.id > 0
       "#{query_params.id} is positive\n"

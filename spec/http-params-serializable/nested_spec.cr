@@ -21,7 +21,7 @@ end
 describe NestedParams do
   describe "(sub)nested" do
     it do
-      v = NestedParams.new("nested[required]=true&nested[required_array][]=42&nested[subnested][0][unknown]=foo")
+      v = NestedParams.from_query("nested[required]=true&nested[required_array][]=42&nested[subnested][0][unknown]=foo")
 
       v.nested.should be_a(NestedParams::Nested)
       nested = v.nested.not_nil!
@@ -36,7 +36,7 @@ describe NestedParams do
       subnested.optional.should be_nil
 
       # Subnested is not nil itself, but it's not rendered due to being empty
-      v.to_http_param.should eq escape("nested[required]=true&nested[requiredArray][]=42")
+      v.to_query.should eq escape("nested[required]=true&nested[requiredArray][]=42")
     end
 
     # The keys are checked de-facto, thus "nested[]=" key is never validated, therefore skipped

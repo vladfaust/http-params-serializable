@@ -1,6 +1,6 @@
 # :nodoc:
 struct Union(*T)
-  def self.new(http_param value : String)
+  def self.from_http_param(value : String)
     {% if @type.nilable? %}
       return nil if value.empty?
     {% end %}
@@ -8,7 +8,7 @@ struct Union(*T)
     {% for type in T %}
       {% unless type == Nil %}
         begin
-          v = {{type}}.new(http_param: value)
+          v = {{type}}.from_http_param(value)
           return v
         rescue ex : TypeCastError
         end
@@ -18,7 +18,7 @@ struct Union(*T)
     raise TypeCastError.new
   end
 
-  def self.new(http_param value : String, path : Tuple, converter : C = nil) : self forall C
+  def self.from_http_param(query : String, path : Tuple, converter : C = nil) : self forall C
     {%
       if T.all? { |t| t.annotation(HTTP::Params::Serializable::Scalar) || t == Nil }
         raise "Unions of scalar types must be initialized with a single value argument"
@@ -26,7 +26,7 @@ struct Union(*T)
     %}
 
     {% if @type.nilable? %}
-      return nil if value.empty?
+      return nil if query.empty?
     {% end %}
 
     {% for type in T %}
@@ -37,12 +37,12 @@ struct Union(*T)
 
           {% if converter != "Nil" %}
             {% if type < Array %}
-              v = {{type}}.new(http_param: value, path: path, converter: {{converter}})
+              v = {{type}}.from_http_param(query, path, {{converter}})
             {% else %}
-              v = {{converter.id}}.from_http_param(value, path)
+              v = {{converter.id}}.from_http_param(query, path)
             {% end %}
           {% else %}
-            v = {{type}}.new(http_param: value, path: path)
+            v = {{type}}.from_http_param(query, path)
           {% end %}
 
           return v

@@ -16,7 +16,7 @@ end
 
 describe URIParams do
   it do
-    v = URIParams.new("uri=https://example.com&nilable_uri=foo&arrayUri[0]=bar&nilableArrayUri[]=baz&arrayNilableUri[]=&nilableArrayNilableUri[0]=")
+    v = URIParams.from_query("uri=https://example.com&nilable_uri=foo&arrayUri[0]=bar&nilableArrayUri[]=baz&arrayNilableUri[]=&nilableArrayNilableUri[0]=")
     v.uri.should eq URI.parse("https://example.com")
     v.nilable_uri.should eq URI.parse("foo")
     v.array_uri.should eq [URI.parse("bar")]
@@ -24,6 +24,6 @@ describe URIParams do
     v.array_nilable_uri.should eq [nil]
     v.nilable_array_nilable_uri.should eq [nil]
 
-    v.to_http_param.should eq escape("uri=https://example.com&nilableUri=foo&arrayUri[]=bar&nilableArrayUri[]=baz")
+    v.to_query.should eq escape("uri=https://example.com&nilableUri=foo&arrayUri[]=bar&nilableArrayUri[]=baz")
   end
 end

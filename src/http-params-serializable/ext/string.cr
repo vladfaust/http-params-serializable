@@ -12,7 +12,7 @@ class String
   end
 
   # Parse `String` from an HTTP param (basically return itself).
-  def self.new(http_param value : String)
+  def self.from_http_param(value : String)
     return value
   end
 end

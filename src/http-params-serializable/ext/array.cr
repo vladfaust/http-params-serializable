@@ -42,7 +42,7 @@ class Array(T)
   # Initialize `self` from an HTTP param query,
   # optionally convering underlying elements with *converter*.
   # *path* is used to raise convenient errors.
-  def self.new(http_param query : String, path : Tuple, converter : C = nil) : self forall C
+  def self.from_http_param(query : String, path : Tuple, converter : C = nil) : self forall C
     {% begin %}
       {% scalar = T.annotation(HTTP::Params::Serializable::Scalar) || (T.union? && T.union_types.all? { |t| t.annotation(HTTP::Params::Serializable::Scalar) || t == Nil }) %}
 
@@ -179,10 +179,10 @@ class Array(T)
         {{converter}}.from_http_param({{value}})
       {% else %}
         # Initialize the array then, passing the `converter:` argument
-        {{type.resolve}}.new(
-          http_param: {{value}},
-          path: {{path}},
-          converter: {{converter}},
+        {{type.resolve}}.from_http_param(
+          {{value}},
+          {{path}},
+          {{converter}},
         )
       {% end %}
     {% else %}
@@ -191,9 +191,9 @@ class Array(T)
       #
 
       {% if scalar %}
-        {{type.resolve}}.new(http_param: {{value}})
+        {{type.resolve}}.from_http_param({{value}})
       {% else %}
-        {{type.resolve}}.new(http_param: {{value}}, path: {{path}})
+        {{type.resolve}}.from_http_param({{value}}, {{path}})
       {% end %}
     {% end %}
   end

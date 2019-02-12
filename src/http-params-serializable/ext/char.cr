@@ -12,7 +12,7 @@ struct Char
   end
 
   # Parse `self` from an HTTP param. Raises `TypeCastError` if the value length != 1.
-  def self.new(http_param value : String)
+  def self.from_http_param(value : String)
     chars = value.chars
     raise TypeCastError.new if chars.size != 1
     return chars.first

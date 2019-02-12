@@ -12,7 +12,7 @@ struct Bool
   end
 
   # Parse `self` from an HTTP param, returning `true` on `"true"` and `false` on `"false"`.
-  def self.new(http_param value : String)
+  def self.from_http_param(value : String)
     case value
     when "true"  then true
     when "false" then false

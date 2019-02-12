@@ -14,7 +14,7 @@
       end
 
       # Parse `self` from an HTTP param.
-      def self.new(http_param value : String)
+      def self.from_http_param(value : String)
         return value.to_{{unsigned ? "u".id : "i".id}}{{bytes.id}}
       rescue ArgumentError
         raise TypeCastError.new

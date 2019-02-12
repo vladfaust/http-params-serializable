@@ -2,7 +2,7 @@ require "http/params"
 require "./http-params-serializable/*"
 
 # Including this module will make an object serializable to and from HTTP params query.
-# It adds a `.new(http_param : String)` and `#to_http_param` methods.
+# It adds a `.from_query(query : String)` and `#to_query : String` methods.
 module HTTP::Params::Serializable
   # Build query path from a tuple of *path* elements.
   #
@@ -54,8 +54,7 @@ module HTTP::Params::Serializable
   end
 
   # Serialalize `self` into an HTTP params query with the *builder* at *key*.
-  # Instance variables are by default seralized under "camelCased" keys,
-  # unless explicitly specified with `@[HTTP::Param(key: "mykey")` (see `HTTP::Param`).
+  # See `#to_query` for instance variable rules.
   def to_http_param(builder : Builder, key : String? = nil)
     {% for ivar, i in @type.instance_vars %}
       if var = @{{ivar.name}}
@@ -87,7 +86,9 @@ module HTTP::Params::Serializable
   end
 
   # Serialalize `self` into an HTTP params query, returning a `String`.
-  def to_http_param : String
+  # Instance variables are by default seralized under camelCased keys,
+  # unless explicitly specified with `@[HTTP::Param(key: "mykey")`.
+  def to_query : String
     builder = HTTP::Params::Builder.new
     to_http_param(builder)
     builder.to_s
@@ -97,23 +98,23 @@ module HTTP::Params::Serializable
     # These methods are copied from `JSON::Serializable`
     #
 
-    def self.new(http_param : String, path : Tuple)
+    def self.from_http_param(query : String, path : Tuple)
       instance = allocate
-      instance.initialize(_http_params_query: http_param, _http_params_path: path)
+      instance.initialize(_http_params_query: query, _http_params_path: path)
       GC.add_finalizer(instance) if instance.responds_to?(:finalize)
       instance
     end
 
-    def self.new(http_param : String)
-      new(http_param: http_param, path: Tuple.new)
+    def self.from_query(query : String)
+      from_http_param(query: query, path: Tuple.new)
     end
 
     macro inherited
-      def self.new(http_param : String, path : Tuple)
+      def self.from_http_param(query : String, path : Tuple)
         super
       end
 
-      def self.new(http_param : String)
+      def self.from_query(query : String)
         super
       end
     end
@@ -183,7 +184,7 @@ module HTTP::Params::Serializable
                 {% else %}
                   # The param doesn't have a converter, try to initialize
                   # its explicit type from the incoming value
-                  {{ivar.name}}_value = {{ivar.type}}.new(http_param: value)
+                  {{ivar.name}}_value = {{ivar.type}}.from_http_param(value)
                 {% end %}
               rescue TypeCastError
                 unless value.empty?
@@ -234,17 +235,17 @@ module HTTP::Params::Serializable
                 # Check if the param has a converter annotated
                 {% if converter = ivar.annotation(HTTP::Param) && ivar.annotation(HTTP::Param)[:converter] %}
                   # Initialize the type passing the `converter:` argument
-                  {{ivar.name}}_value = {{ivar.type}}.new(
-                    http_param: query,
-                    path: _http_params_path + { {{ivar.name.stringify}} },
-                    converter: {{converter}},
+                  {{ivar.name}}_value = {{ivar.type}}.from_http_param(
+                    query,
+                    _http_params_path + { {{ivar.name.stringify}} },
+                    {{converter}},
                   )
                 {% else %}
                   # The param doesn't have a converter, try to initialize
                   # its explicit type from the incoming value
-                  {{ivar.name}}_value = {{ivar.type}}.new(
-                    http_param: query,
-                    path: _http_params_path + { {{ivar.name.stringify}} }
+                  {{ivar.name}}_value = {{ivar.type}}.from_http_param(
+                    query,
+                    _http_params_path + { {{ivar.name.stringify}} }
                   )
                 {% end %}
               rescue TypeCastError

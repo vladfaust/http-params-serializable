@@ -6,7 +6,7 @@ require "../src/http-params-serializable"
 macro assert_raise(object, query, error, message, path)
   expect_raises {{error}} do
     begin
-      {{object}}.new({{query}})
+      {{object}}.from_query({{query}})
     rescue ex : {{error}}
       ex.message.should eq {{message}}
       ex.path.should eq {{path}}

@@ -20,7 +20,7 @@ module HTTP
   #   getter time : Array(Time)
   # end
   #
-  # params = MyParams.new("theTime[]=1544958806")
+  # params = MyParams.from_query("theTime[]=1544958806")
   # pp params.time.class # => Array(Time)
   # ```
   annotation Param
@@ -40,7 +40,7 @@ module HTTP
       #     builder.add(key, to_s)
       #   end
       #
-      #   def self.new(http_param value : String)
+      #   def self.from_http_param(value : String)
       #     return URI.parse(value)
       #   end
       # end
@@ -50,7 +50,7 @@ module HTTP
       #   getter uri : URI
       # end
       #
-      # params = MyParams.new("uri=https://example.com")
+      # params = MyParams.from_query("uri=https://example.com")
       # pp params.uri # => <URI @host="example.com" ...>
       # ```
       #
@@ -78,16 +78,16 @@ module HTTP
       #   # E.g. builder.add(key, self.to_s)
       # end
       #
-      # def self.new(http_param value : String) : self
+      # def self.from_http_param(value : String) : self
       #   # E.g. value.to_s
       # end
       # ```
       #
-      # Otherwise, the methods become a little more complex:
+      # Otherwise (if the type is not `Scalar`), the methods become a little more complex:
       #
       # ```
       # def to_http_param(builder : HTTP::Params::Builder, key : String? = nil)
-      #   # ditto
+      #   # Notice the *key* is nilable
       # end
       #
       # # Or if you're using a converter on a param:
@@ -95,12 +95,12 @@ module HTTP
       #   # ditto
       # end
       #
-      # def self.new(http_param query : String, path : Tuple) : self
-      #   # ditto
+      # def self.from_http_param(query : String, path : Tuple) : self
+      #   # Notice the *path* argument
       # end
       #
       # # Or if you're using a converter on a param:
-      # def self.new(http_param query : String, path : Tuple, converter : C = nil) : self forall C
+      # def self.from_http_param(query : String, path : Tuple, converter : C = nil) : self forall C
       #   # ditto
       # end
       # ```

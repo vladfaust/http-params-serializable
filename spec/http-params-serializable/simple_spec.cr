@@ -11,7 +11,7 @@ end
 
 describe SimpleParams do
   describe "required" do
-    v = SimpleParams.new("required=42&unknown=foo")
+    v = SimpleParams.from_query("required=42&unknown=foo")
 
     describe "parsing" do
       it do
@@ -52,57 +52,57 @@ describe SimpleParams do
 
     describe "serializing" do
       it do
-        v.to_http_param.should eq "required=42"
+        v.to_query.should eq "required=42"
       end
     end
   end
 
   describe "optional" do
     it "casts to Bool" do
-      v = SimpleParams.new("required=42&fooBar=true")
+      v = SimpleParams.from_query("required=42&fooBar=true")
       v.optional.should be_a(Bool)
       v.optional.should eq true
-      v.to_http_param.should eq "required=42&fooBar=true"
+      v.to_query.should eq "required=42&fooBar=true"
     end
 
     it "casts to Char" do
-      v = SimpleParams.new("required=42&fooBar=t")
+      v = SimpleParams.from_query("required=42&fooBar=t")
       v.optional.should be_a(Char)
       v.optional.should eq 't'
-      v.to_http_param.should eq "required=42&fooBar=t"
+      v.to_query.should eq "required=42&fooBar=t"
     end
 
     it "casts to String" do
-      v = SimpleParams.new("required=42&fooBar=foo")
+      v = SimpleParams.from_query("required=42&fooBar=foo")
       v.optional.should be_a(String)
       v.optional.should eq "foo"
-      v.to_http_param.should eq "required=42&fooBar=foo"
+      v.to_query.should eq "required=42&fooBar=foo"
     end
 
     it "casts to Float32 instead of Int32" do
-      v = SimpleParams.new("required=42&fooBar=42")
+      v = SimpleParams.from_query("required=42&fooBar=42")
       v.optional.should be_a(Float32)
       v.optional.should eq 42.0
-      v.to_http_param.should eq "required=42&fooBar=42.0"
+      v.to_query.should eq "required=42&fooBar=42.0"
     end
 
     it "casts to Float32" do
-      v = SimpleParams.new("required=42&fooBar=-42.1")
+      v = SimpleParams.from_query("required=42&fooBar=-42.1")
       v.optional.should be_a(Float32)
       v.optional.should eq -42.1_f32
-      v.to_http_param.should eq "required=42&fooBar=-42.1"
+      v.to_query.should eq "required=42&fooBar=-42.1"
     end
 
     it "stays nil on empty" do
-      v = SimpleParams.new("required=42&fooBar=")
+      v = SimpleParams.from_query("required=42&fooBar=")
       v.optional.should be_nil
-      v.to_http_param.should eq "required=42"
+      v.to_query.should eq "required=42"
     end
 
     it "stays nil on missing" do
-      v = SimpleParams.new("required=42")
+      v = SimpleParams.from_query("required=42")
       v.optional.should be_nil
-      v.to_http_param.should eq "required=42"
+      v.to_query.should eq "required=42"
     end
   end
 end
