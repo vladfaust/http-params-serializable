@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.27.0">
+<meta name="generator" content="Crystal Docs 0.27.2">
 
 
 <link href="../css/style.css" rel="stylesheet" type="text/css">
@@ -164,7 +164,9 @@
 
 <p>Options:</p>
 
-<ul><li><em>converter</em> -- a converter to use for casting.
+<ul><li><em>key</em> -- a key to use for (de)serializing.  By default all possible variations
+of the instance variable name are used (i.e. <code>"foo_bar"</code>, <code>"fooBar"</code>, <code>"FooBar"</code>,
+<code>"foo-bar"</code> and <code>"Foo-Bar"</code> for a <code>@foo_bar</code> variable)</li><li><em>converter</em> -- a converter to use for casting.
 Some types implement converter forwarding, for example, <code>Array</code>:</li></ul>
 
 <pre><code><span class="k">require</span> <span class="s">&quot;http-params-parseable&quot;</span>
@@ -173,11 +175,11 @@ Some types implement converter forwarding, for example, <code>Array</code>:</li>
 <span class="k">struct</span> <span class="t">MyParams</span>
   <span class="k">include</span> <span class="t">HTTP</span><span class="t">::</span><span class="t">Params</span><span class="t">::</span><span class="t">Serializable</span>
 
-  @[<span class="t">HTTP</span><span class="t">::</span><span class="t">Param</span>(converter: <span class="t">Time</span><span class="t">::</span><span class="t">EpochConverter</span>)]
+  @[<span class="t">HTTP</span><span class="t">::</span><span class="t">Param</span>(converter: <span class="t">Time</span><span class="t">::</span><span class="t">EpochConverter</span>, key: <span class="s">&quot;theTime&quot;</span>)]
   getter time : <span class="t">Array</span>(<span class="t">Time</span>)
 <span class="k">end</span>
 
-params <span class="o">=</span> <span class="t">MyParams</span>.<span class="k">new</span>(<span class="s">&quot;time[]=1544958806&quot;</span>)
+params <span class="o">=</span> <span class="t">MyParams</span>.from_query(<span class="s">&quot;theTime[]=1544958806&quot;</span>)
 pp params.time.<span class="k">class</span> <span class="c"># =&gt; Array(Time)</span></code></pre>
 
 
@@ -196,7 +198,7 @@ pp params.time.<span class="k">class</span> <span class="c"># =&gt; Array(Time)<
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/vladfaust/http-params-serializable/blob/2381714894f99c2b7bff3c24f4f537b8e3300fd2/src/http-params-serializable/annotations.cr#L23" target="_blank">
+      <a href="https://github.com/vladfaust/http-params-serializable/blob/793b09bd974739a356cf137eac302649a295e968/src/http-params-serializable/annotations.cr#L26" target="_blank">
         http-params-serializable/annotations.cr
       </a>
     

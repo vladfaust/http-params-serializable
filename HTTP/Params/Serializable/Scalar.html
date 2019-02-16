@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.27.0">
+<meta name="generator" content="Crystal Docs 0.27.2">
 
 
 <link href="../../../css/style.css" rel="stylesheet" type="text/css">
@@ -171,7 +171,7 @@ For example, <code>Int32</code> is scalar by default, thus in case <code>"foo=42
     builder.add(key, to_s)
   <span class="k">end</span>
 
-  <span class="k">def</span> <span class="m">self</span>.<span class="k">new</span>(http_param value : <span class="t">String</span>)
+  <span class="k">def</span> <span class="m">self</span>.from_http_param(value : <span class="t">String</span>)
     <span class="k">return</span> <span class="t">URI</span>.parse(value)
   <span class="k">end</span>
 <span class="k">end</span>
@@ -181,7 +181,7 @@ For example, <code>Int32</code> is scalar by default, thus in case <code>"foo=42
   getter uri : <span class="t">URI</span>
 <span class="k">end</span>
 
-params <span class="o">=</span> <span class="t">MyParams</span>.<span class="k">new</span>(<span class="s">&quot;uri=https://example.com&quot;</span>)
+params <span class="o">=</span> <span class="t">MyParams</span>.from_query(<span class="s">&quot;uri=https://example.com&quot;</span>)
 pp params.uri <span class="c"># =&gt; &lt;URI @host=&quot;example.com&quot; ...&gt;</span></code></pre>
 
 <p><code><a href="../../../URI.html">URI</a></code> and <code><a href="../../../Time/EpochConverter.html">Time::EpochConverter</a></code> extensions are shipped by default:</p>
@@ -205,14 +205,14 @@ pp params.uri <span class="c"># =&gt; &lt;URI @host=&quot;example.com&quot; ...&
   <span class="c"># E.g. builder.add(key, self.to_s)</span>
 <span class="k">end</span>
 
-<span class="k">def</span> <span class="m">self</span>.<span class="k">new</span>(http_param value : <span class="t">String</span>) : <span class="k">self</span>
+<span class="k">def</span> <span class="m">self</span>.from_http_param(value : <span class="t">String</span>) : <span class="k">self</span>
   <span class="c"># E.g. value.to_s</span>
 <span class="k">end</span></code></pre>
 
-<p>Otherwise, the methods become a little more complex:</p>
+<p>Otherwise (if the type is not <code><a href="../../../HTTP/Params/Serializable/Scalar.html">Scalar</a></code>), the methods become a little more complex:</p>
 
 <pre><code><span class="k">def</span> <span class="m">to_http_param</span>(builder : <span class="t">HTTP</span><span class="t">::</span><span class="t">Params</span><span class="t">::</span><span class="t">Builder</span>, key : <span class="t">String</span>? <span class="o">=</span> <span class="n">nil</span>)
-  <span class="c"># ditto</span>
+  <span class="c"># Notice the *key* is nilable</span>
 <span class="k">end</span>
 
 <span class="c"># Or if you&#39;re using a converter on a param:</span>
@@ -220,12 +220,12 @@ pp params.uri <span class="c"># =&gt; &lt;URI @host=&quot;example.com&quot; ...&
   <span class="c"># ditto</span>
 <span class="k">end</span>
 
-<span class="k">def</span> <span class="m">self</span>.<span class="k">new</span>(http_param query : <span class="t">String</span>, path : <span class="t">Tuple</span>) : <span class="k">self</span>
-  <span class="c"># ditto</span>
+<span class="k">def</span> <span class="m">self</span>.from_http_param(query : <span class="t">String</span>, path : <span class="t">Tuple</span>) : <span class="k">self</span>
+  <span class="c"># Notice the *path* argument</span>
 <span class="k">end</span>
 
 <span class="c"># Or if you&#39;re using a converter on a param:</span>
-<span class="k">def</span> <span class="m">self</span>.<span class="k">new</span>(http_param query : <span class="t">String</span>, path : <span class="t">Tuple</span>, converter : <span class="t">C</span> <span class="o">=</span> <span class="n">nil</span>) : <span class="k">self</span> forall <span class="t">C</span>
+<span class="k">def</span> <span class="m">self</span>.from_http_param(query : <span class="t">String</span>, path : <span class="t">Tuple</span>, converter : <span class="t">C</span> <span class="o">=</span> <span class="n">nil</span>) : <span class="k">self</span> forall <span class="t">C</span>
   <span class="c"># ditto</span>
 <span class="k">end</span></code></pre>
 
@@ -245,7 +245,7 @@ pp params.uri <span class="c"># =&gt; &lt;URI @host=&quot;example.com&quot; ...&
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/vladfaust/http-params-serializable/blob/2381714894f99c2b7bff3c24f4f537b8e3300fd2/src/http-params-serializable/annotations.cr#L104" target="_blank">
+      <a href="https://github.com/vladfaust/http-params-serializable/blob/793b09bd974739a356cf137eac302649a295e968/src/http-params-serializable/annotations.cr#L107" target="_blank">
         http-params-serializable/annotations.cr
       </a>
     

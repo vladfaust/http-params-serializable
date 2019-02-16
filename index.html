@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.27.0">
+<meta name="generator" content="Crystal Docs 0.27.2">
 
 
 <link href="css/style.css" rel="stylesheet" type="text/css">
@@ -154,17 +154,20 @@
 <a href="https://travis-ci.com/vladfaust/http-params-serializable" target="_blank"><img src="https://img.shields.io/travis/com/vladfaust/http-params-serializable/master.svg?style=flat-square" alt="Build status"/></a>
 <a href="https://github.vladfaust.com/http-params-serializable" target="_blank"><img src="https://img.shields.io/badge/docs-available-brightgreen.svg?style=flat-square" alt="Docs"/></a>
 <a href="https://github.com/vladfaust/http-params-serializable/releases" target="_blank"><img src="https://img.shields.io/github/release/vladfaust/http-params-serializable.svg?style=flat-square" alt="Releases"/></a>
-<a href="https://github.com/veelenga/awesome-crystal" target="_blank"><img src="https://github.com/vladfaust/awesome/blob/badge-flat-alternative/media/badge-flat-alternative.svg" alt="Awesome"/></a>
+<a href="https://github.com/veelenga/awesome-crystal" target="_blank"><img src="https://awesome.re/badge-flat2.svg" alt="Awesome"/></a>
 <a href="https://vladfaust.com" target="_blank"><img src="https://img.shields.io/badge/style-.com-lightgrey.svg?longCache=true&style=flat-square&label=vladfaust&colorB=0a83d8" alt="vladfaust.com"/></a>
-<a href="https://www.patreon.com/vladfaust" target="_blank"><img src="https://img.shields.io/badge/dynamic/json.svg?label=patrons&url=https://www.patreon.com/api/user/11296360&query=$.included[0].attributes.patron_count&style=flat-square&colorB=red&maxAge=86400" alt="Patrons count"/></a></p>
+<a href="https://www.patreon.com/vladfaust" target="_blank"><img src="https://img.shields.io/badge/dynamic/json.svg?label=patrons&url=https://www.patreon.com/api/user/11296360&query=$.included[0].attributes.patron_count&style=flat-square&colorB=red&maxAge=86400" alt="Patrons count"/></a>
+<a href="https://gitter.im/vladfaust/http-params-serializable" target="_blank"><img src="https://img.shields.io/badge/chat%20on-gitter-green.svg?colorB=ED1965&logo=gitter&style=flat-square" alt="Gitter chat"/></a></p>
 
-<p>The HTTP params parsing module for <a href="https://crystal-lang.org/" target="_blank">Crysal</a>.</p>
+<p>The HTTP params serialization module for <a href="https://crystal-lang.org/" target="_blank">Crystal</a>.</p>
 
 <h2>Supporters</h2>
 
 <p>Thanks to all my patrons, I can build and support beautiful Open Source Software! 🙏</p>
 
 <p><a href="https://github.com/ljuti" target="_blank">Lauri Jutila</a></p>
+
+<p><em>You can become a patron too in exchange of prioritized support and other perks</em></p>
 
 <p><a href="https://www.patreon.com/vladfaust" target="_blank"><img src="https://vladfaust.com/img/patreon-small.svg" alt="Become Patron"/></a></p>
 
@@ -179,7 +182,7 @@
 <pre><code class="language-yaml">dependencies:
   http-params-serializable:
     github: vladfaust/http-params-serializable
-    version: ~> 0.2.0</code></pre>
+    version: ~> 0.3.0</code></pre>
 
 <ol><li>Run <code>shards install</code></li></ol>
 
@@ -189,44 +192,45 @@
 
 <pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;http-params-serializable&quot;</span>
 
-<span class="c"># Don&#39;t use &quot;Params&quot; name for your params containers, because it currently causes a bug.</span>
-<span class="k">struct</span> <span class="t">MyParams</span>
+<span class="k">struct</span> <span class="t">Params</span>
   <span class="k">include</span> <span class="t">HTTP</span><span class="t">::</span><span class="t">Params</span><span class="t">::</span><span class="t">Serializable</span>
   getter id : <span class="t">Int32</span>
 <span class="k">end</span>
 
-params <span class="o">=</span> <span class="t">MyParams</span>.<span class="k">new</span>(<span class="s">&quot;id=42&quot;</span>)
+params <span class="o">=</span> <span class="t">Params</span>.from_query(<span class="s">&quot;id=42&quot;</span>)
 pp params.id.<span class="k">class</span> <span class="c"># =&gt; Int32</span>
+pp params.to_query <span class="c"># =&gt; &quot;id=42&quot;</span>
 
-<span class="t">MyParams</span>.<span class="k">new</span>(<span class="s">&quot;&quot;</span>)
+<span class="t">Params</span>.from_query(<span class="s">&quot;&quot;</span>)
 <span class="c"># HTTP::Params::Serializable::ParamMissingError: Parameter &quot;id&quot; is missing</span>
 
-<span class="t">MyParams</span>.<span class="k">new</span>(<span class="s">&quot;id=foo&quot;</span>)
+<span class="t">Params</span>.from_query(<span class="s">&quot;id=foo&quot;</span>)
 <span class="c"># HTTP::Params::Serializable::ParamTypeCastError: Parameter &quot;id&quot; cannot be cast from &quot;foo&quot; to Int32</span></code></pre>
 
 <p>As you may expect, unions work as well:</p>
 
-<pre><code class="language-crystal"><span class="k">struct</span> <span class="t">MyParams</span>
+<pre><code class="language-crystal"><span class="k">struct</span> <span class="t">Params</span>
   <span class="k">include</span> <span class="t">HTTP</span><span class="t">::</span><span class="t">Params</span><span class="t">::</span><span class="t">Serializable</span>
   getter id : <span class="t">Int32</span> <span class="o">|</span> <span class="t">Nil</span>
 <span class="k">end</span>
 
-params <span class="o">=</span> <span class="t">MyParams</span>.<span class="k">new</span>(<span class="s">&quot;id=&quot;</span>)
+params <span class="o">=</span> <span class="t">Params</span>.from_query(<span class="s">&quot;id=&quot;</span>)
 pp params.id <span class="c"># =&gt; nil</span></code></pre>
 
 <p>Arrays are supported too:</p>
 
-<pre><code class="language-crystal"><span class="k">struct</span> <span class="t">MyParams</span>
+<pre><code class="language-crystal"><span class="k">struct</span> <span class="t">Params</span>
   <span class="k">include</span> <span class="t">HTTP</span><span class="t">::</span><span class="t">Params</span><span class="t">::</span><span class="t">Serializable</span>
   getter foo : <span class="t">Array</span>(<span class="t">Float32</span>)
 <span class="k">end</span>
 
-params <span class="o">=</span> <span class="t">MyParams</span>.<span class="k">new</span>(<span class="s">&quot;foo[]=42.0&amp;foo[]=43.5&quot;</span>)
-pp params.foo[<span class="n">1</span>] <span class="c"># =&gt; 43.5</span></code></pre>
+params <span class="o">=</span> <span class="t">Params</span>.from_query(<span class="s">&quot;foo[]=42.0&amp;foo[]=43.5&quot;</span>)
+pp params.foo[<span class="n">1</span>] <span class="c"># =&gt; 43.5</span>
+pp params.to_query <span class="c"># =&gt; &quot;foo[]=42.0&amp;foo[]=43.5&quot;</span></code></pre>
 
 <p>Nested params are supported:</p>
 
-<pre><code class="language-crystal"><span class="k">struct</span> <span class="t">MyParams</span>
+<pre><code class="language-crystal"><span class="k">struct</span> <span class="t">Params</span>
   <span class="k">include</span> <span class="t">HTTP</span><span class="t">::</span><span class="t">Params</span><span class="t">::</span><span class="t">Serializable</span>
   getter nested : <span class="t">Nested</span>
 
@@ -236,12 +240,13 @@ pp params.foo[<span class="n">1</span>] <span class="c"># =&gt; 43.5</span></cod
   <span class="k">end</span>
 <span class="k">end</span>
 
-params <span class="o">=</span> <span class="t">MyParams</span>.<span class="k">new</span>(<span class="s">&quot;nested[foo]=true&quot;</span>)
-pp params.nested.foo <span class="c"># =&gt; true</span></code></pre>
+params <span class="o">=</span> <span class="t">Params</span>.from_query(<span class="s">&quot;nested[foo]=true&quot;</span>)
+pp params.nested.foo <span class="c"># =&gt; true</span>
+pp params.to_query <span class="c"># =&gt; &quot;nested[foo]=true&quot;</span></code></pre>
 
 <p>Nested arrays are supported as well:</p>
 
-<pre><code class="language-crystal"><span class="k">struct</span> <span class="t">MyParams</span>
+<pre><code class="language-crystal"><span class="k">struct</span> <span class="t">Params</span>
   <span class="k">include</span> <span class="t">HTTP</span><span class="t">::</span><span class="t">Params</span><span class="t">::</span><span class="t">Serializable</span>
   getter nested : <span class="t">Array</span>(<span class="t">Nested</span>)
 
@@ -251,24 +256,86 @@ pp params.nested.foo <span class="c"># =&gt; true</span></code></pre>
   <span class="k">end</span>
 <span class="k">end</span>
 
-params <span class="o">=</span> <span class="t">MyParams</span>.<span class="k">new</span>(<span class="s">&quot;nested[0][foo][]=1&amp;nested[0][foo][]=2&quot;</span>)
-pp params.nested.first.foo.first <span class="c"># =&gt; [1, 2]</span></code></pre>
+params <span class="o">=</span> <span class="t">Params</span>.from_query(<span class="s">&quot;nested[0][foo][]=1&amp;nested[0][foo][]=2&quot;</span>)
+pp params.nested.first.foo.first <span class="c"># =&gt; [1, 2]</span>
+pp params.to_query <span class="c"># ditto</span></code></pre>
+
+<p>It is also possible to alter the serialization behaviour with <a href="http://github.vladfaust.com/http-params-serializable/HTTP/Param.html" target="_blank"><code>@[HTTP::Param]</code></a> annotation. It currently supports two options: <code>:key</code> and <code>:converter</code>. Read more in <a href="http://github.vladfaust.com/http-params-serializable/HTTP/Param.html" target="_blank">docs</a>.</p>
+
+<pre><code class="language-crystal"><span class="k">struct</span> <span class="t">Params</span>
+  <span class="k">include</span> <span class="t">HTTP</span><span class="t">::</span><span class="t">Params</span><span class="t">::</span><span class="t">Serializable</span>
+
+  @[<span class="t">HTTP</span><span class="t">::</span><span class="t">Param</span>(key: <span class="s">&quot;the___Time&quot;</span>, converter: <span class="t">Time</span><span class="t">::</span><span class="t">EpochConverter</span>)]
+  getter time : <span class="t">Time</span>
+<span class="k">end</span>
+
+params <span class="o">=</span> <span class="t">Params</span>.from_query(<span class="s">&quot;the___Time=1544958806&quot;</span>)
+pp params.time <span class="c"># =&gt; 2018-12-16 11:13:26.0 UTC</span>
+pp params.to_query <span class="c"># =&gt; &quot;the___Time=1544958806&quot;</span></code></pre>
+
+<h3>Custom serialization rules</h3>
+
+<p>If you want to know-how to make custom objects serializable, read <a href="https://github.com/vladfaust/http-params-serializable/wiki/Custom-serialization-rules" target="_blank">the Custom serialization rules Wiki page</a>.</p>
+
+<h3>Usage with <a href="https://onyxframework.org" target="_blank">Onyx::REST</a></h3>
+
+<p><a href="https://github.com/onyxframework/rest" target="_blank">Onyx::REST</a> comes with an Action module, which implements common param sources parsing, which uses this shard under the hood:</p>
+
+<pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;onyx/rest&quot;</span>
+
+<span class="k">struct</span> <span class="t">UpdateUser</span>
+  <span class="k">include</span> <span class="t">Onyx</span><span class="t">::</span><span class="t">REST</span><span class="t">::</span><span class="t">Action</span>
+
+  params <span class="k">do</span>
+    <span class="c"># Path params (&quot;/users/:id&quot;)</span>
+    path <span class="k">do</span>
+      <span class="k">type</span> id : <span class="t">Int32</span>
+    <span class="k">end</span>
+
+    <span class="c"># Query params (&quot;/users/42?password=secret&quot;)</span>
+    <span class="c"># Nesting and arrays natively supported</span>
+    query <span class="k">do</span>
+      <span class="k">type</span> password : <span class="t">String</span>
+      <span class="k">type</span> foo <span class="k">do</span>
+        <span class="k">type</span> bar : <span class="t">Int32</span>?
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="c"># Full support for form-data payloads</span>
+    form <span class="k">do</span>
+      <span class="k">type</span> username : <span class="t">String</span>?
+      <span class="k">type</span> email : <span class="t">String</span>?
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  errors <span class="k">do</span>
+    <span class="k">type</span> <span class="t">Forbidden</span>(<span class="n">403</span>)
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="m">call</span>
+    user <span class="o">=</span> <span class="t">Onyx</span>.query(<span class="t">User</span>.where(id: params.path.id))
+    raise <span class="t">Forbidden</span>.<span class="k">new</span> <span class="k">unless</span> user.password <span class="o">==</span> params.query.password
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="t">Onyx</span>.put <span class="s">&quot;/users/:id&quot;</span>, <span class="t">UpdateUser</span>
+<span class="t">Onyx</span>.listen</code></pre>
 
 <h3>Usage with <a href="http://kemalcr.com" target="_blank">Kemal</a></h3>
 
-<p>It's pretty easy to make your applications more safe:</p>
+<p>It's pretty simple to make your Kemal applications more safe:</p>
 
 <pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;kemal&quot;</span>
 <span class="k">require</span> <span class="s">&quot;http-params-serializable&quot;</span>
 
-<span class="k">struct</span> <span class="t">MyParams</span>
+<span class="k">struct</span> <span class="t">Params</span>
   <span class="k">include</span> <span class="t">HTTP</span><span class="t">::</span><span class="t">Params</span><span class="t">::</span><span class="t">Serializable</span>
   getter id : <span class="t">Int32</span>
 <span class="k">end</span>
 
 get <span class="s">&quot;/&quot;</span> <span class="k">do</span> <span class="o">|</span>env<span class="o">|</span>
   <span class="k">if</span> query <span class="o">=</span> env.request.query
-    query_params <span class="o">=</span> <span class="t">MyParams</span>.<span class="k">new</span>(query)
+    query_params <span class="o">=</span> <span class="t">Params</span>.from_query(query)
 
     <span class="k">if</span> query_params.id <span class="o">&gt;</span> <span class="n">0</span>
       <span class="s">&quot;</span><span class="i">#{</span>query_params.id<span class="i">}</span><span class="s"> is positive\n&quot;</span>
