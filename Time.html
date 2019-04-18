@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.27.2">
+<meta name="generator" content="Crystal Docs 0.28.0">
 
 
 <link href="css/style.css" rel="stylesheet" type="text/css">
@@ -182,9 +182,9 @@ nanosecond-of-second with value range <code>0..999_999_999</code>.</p>
 <p>There are several methods to retrieve a <code><a href="Time.html">Time</a></code> instance representing the
 current time:</p>
 
-<pre><code class="language-crystal"><span class="t">Time</span>.utc_now                                  <span class="c"># returns the current time in UTC</span>
-<span class="t">Time</span>.now <span class="t">Time</span><span class="t">::</span><span class="t">Location</span>.load(<span class="s">&quot;Europe/Berlin&quot;</span>) <span class="c"># returns the current time in time zone Europe/Berlin</span>
-<span class="t">Time</span>.now                                      <span class="c"># returns the current time in current time zone</span></code></pre>
+<pre><code class="language-crystal"><span class="t">Time</span>.utc                                        <span class="c"># returns the current time in UTC</span>
+<span class="t">Time</span>.local <span class="t">Time</span><span class="t">::</span><span class="t">Location</span>.load(<span class="s">&quot;Europe/Berlin&quot;</span>) <span class="c"># returns the current time in time zone Europe/Berlin</span>
+<span class="t">Time</span>.local                                      <span class="c"># returns the current time in current time zone</span></code></pre>
 
 <p>It is generally recommended to keep instances in UTC and only apply a
 local time zone when formatting for user display, unless the domain logic
@@ -197,7 +197,7 @@ requires having a specific time zone (for example for calendaric operations).</p
 
 <pre><code>time <span class="o">=</span> <span class="t">Time</span>.utc(<span class="n">2016</span>, <span class="n">2</span>, <span class="n">15</span>, <span class="n">10</span>, <span class="n">20</span>, <span class="n">30</span>)
 time.to_s <span class="c"># =&gt; 2016-02-15 10:20:30 UTC</span>
-time <span class="o">=</span> <span class="t">Time</span>.<span class="k">new</span>(<span class="n">2016</span>, <span class="n">2</span>, <span class="n">15</span>, <span class="n">10</span>, <span class="n">20</span>, <span class="n">30</span>, location: <span class="t">Time</span><span class="t">::</span><span class="t">Location</span>.load(<span class="s">&quot;Europe/Berlin&quot;</span>))
+time <span class="o">=</span> <span class="t">Time</span>.local(<span class="n">2016</span>, <span class="n">2</span>, <span class="n">15</span>, <span class="n">10</span>, <span class="n">20</span>, <span class="n">30</span>, location: <span class="t">Time</span><span class="t">::</span><span class="t">Location</span>.load(<span class="s">&quot;Europe/Berlin&quot;</span>))
 time.to_s <span class="c"># =&gt; 2016-02-15 10:20:30 +01:00 Europe/Berlin</span>
 <span class="c"># The time-of-day can be omitted and defaults to midnight (start of day):</span>
 time <span class="o">=</span> <span class="t">Time</span>.utc(<span class="n">2016</span>, <span class="n">2</span>, <span class="n">15</span>)
@@ -236,7 +236,7 @@ time.sunday? <span class="c"># =&gt; false</span></code></pre>
 (i.e. the instant represented by this <code><a href="Time.html">Time</a></code>).
 <code>#offset</code> returns the offset of the current zone in seconds.</p>
 
-<pre><code>time <span class="o">=</span> <span class="t">Time</span>.<span class="k">new</span>(<span class="n">2018</span>, <span class="n">3</span>, <span class="n">8</span>, <span class="n">22</span>, <span class="n">5</span>, <span class="n">13</span>, location: <span class="t">Time</span><span class="t">::</span><span class="t">Location</span>.load(<span class="s">&quot;Europe/Berlin&quot;</span>))
+<pre><code>time <span class="o">=</span> <span class="t">Time</span>.local(<span class="n">2018</span>, <span class="n">3</span>, <span class="n">8</span>, <span class="n">22</span>, <span class="n">5</span>, <span class="n">13</span>, location: <span class="t">Time</span><span class="t">::</span><span class="t">Location</span>.load(<span class="s">&quot;Europe/Berlin&quot;</span>))
 time          <span class="c"># =&gt; 2018-03-08 22:05:13 +01:00 Europe/Berlin</span>
 time.location <span class="c"># =&gt; #&lt;Time::Location Europe/Berlin&gt;</span>
 time.zone     <span class="c"># =&gt; #&lt;Time::Location::Zone CET +01:00 (3600s) STD&gt;</span>
@@ -253,7 +253,7 @@ time.offset   <span class="c"># =&gt; 0</span></code></pre>
 <p>A <code><a href="Time.html">Time</a></code> instance can be transformed to a different time zone while retaining
 the same instant using <code>#in</code>:</p>
 
-<pre><code>time_de <span class="o">=</span> <span class="t">Time</span>.<span class="k">new</span>(<span class="n">2018</span>, <span class="n">3</span>, <span class="n">8</span>, <span class="n">22</span>, <span class="n">5</span>, <span class="n">13</span>, location: <span class="t">Time</span><span class="t">::</span><span class="t">Location</span>.load(<span class="s">&quot;Europe/Berlin&quot;</span>))
+<pre><code>time_de <span class="o">=</span> <span class="t">Time</span>.local(<span class="n">2018</span>, <span class="n">3</span>, <span class="n">8</span>, <span class="n">22</span>, <span class="n">5</span>, <span class="n">13</span>, location: <span class="t">Time</span><span class="t">::</span><span class="t">Location</span>.load(<span class="s">&quot;Europe/Berlin&quot;</span>))
 time_ar <span class="o">=</span> time_de.<span class="k">in</span> <span class="t">Time</span><span class="t">::</span><span class="t">Location</span>.load(<span class="s">&quot;America/Buenos_Aires&quot;</span>)
 time_de <span class="c"># =&gt; 2018-03-08 22:05:13 +01:00 Europe/Berlin</span>
 time_ar <span class="c"># =&gt; 2018-03-08 18:05:13 -03:00 America/Buenos_Aires</span></code></pre>
@@ -311,14 +311,14 @@ This can result in discontinuous jumps in the time-line making it not
 suitable for accurately measuring elapsed time.</p>
 
 <p>Instances of <code><a href="Time.html">Time</a></code> are focused on telling time – using a "wall clock".
-When <code>Time.now</code> is called multiple times, the difference between the
-returned instances is not guranteed to equal to the time elapsed between
+When <code>Time.local</code> is called multiple times, the difference between the
+returned instances is not guaranteed to equal to the time elapsed between
 making the calls; even the order of the returned <code><a href="Time.html">Time</a></code> instances might
 not reflect invocation order.</p>
 
-<pre><code>t1 <span class="o">=</span> <span class="t">Time</span>.utc_now
+<pre><code>t1 <span class="o">=</span> <span class="t">Time</span>.utc
 <span class="c"># operation that takes 1 minute</span>
-t2 <span class="o">=</span> <span class="t">Time</span>.utc_now
+t2 <span class="o">=</span> <span class="t">Time</span>.utc
 t2 <span class="o">-</span> t1 <span class="c"># =&gt; ?</span></code></pre>
 
 <p>The resulting <code>Time::Span</code> could be anything, even negative, if the
