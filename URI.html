@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.29.0">
+<meta name="generator" content="Crystal Docs 0.30.1">
 
 
 <link href="css/style.css" rel="stylesheet" type="text/css">
@@ -180,6 +180,24 @@ uri.host   <span class="c"># =&gt; &quot;foo.com&quot;</span>
 uri.query  <span class="c"># =&gt; &quot;id=30&amp;limit=5&quot;</span>
 uri.to_s   <span class="c"># =&gt; &quot;http://foo.com/posts?id=30&amp;limit=5#time=1305298413&quot;</span></code></pre>
 
+<h1>URL Encoding</h1>
+
+<p>This class provides a number of methods for encoding and decoding strings using
+URL Encoding (also known as Percent Encoding) as defined in <a href="https://www.ietf.org/rfc/rfc3986.txt" target="_blank">RFC 3986</a>
+as well as <a href="https://url.spec.whatwg.org/#urlencoded-serializing" target="_blank"><code>x-www-form-urlencoded</code></a>.</p>
+
+<p>Each method has two variants, one returns a string, the other writes directly
+to an IO.</p>
+
+<ul><li><code>.decode(string : String, *, plus_to_space : Bool = false) : String</code>: Decodes a URL-encoded string.</li><li><code>.decode(string : String, io : IO, *, plus_to_space : Bool = false) : Nil</code>: Decodes a URL-encoded string to an IO.</li><li><code>.encode(string : String, *, space_to_plus : Bool = false) : String</code>: URL-encodes a string.</li><li><code>.encode(string : String, io : IO, *, space_to_plus : Bool = false) : Nil</code>: URL-encodes a string to an IO.</li><li><code>.decode_www_form(string : String, *, plus_to_space : Bool = true) : String</code>: Decodes an <code>x-www-form-urlencoded</code> string component.</li><li><code>.decode_www_form(string : String, io : IO, *, plus_to_space : Bool = true) : Nil</code>: Decodes an <code>x-www-form-urlencoded</code> string component to an IO.</li><li><code>.encode_www_form(string : String, *, space_to_plus : Bool = true) : String</code>: Encodes a string as a <code>x-www-form-urlencoded</code> component.</li><li><code>.encode_www_form(string : String, io : IO, *, space_to_plus : Bool = true) : Nil</code>: Encodes a string as a <code>x-www-form-urlencoded</code> component to an IO.</li></ul>
+
+<p>The main difference is that <code>.encode_www_form</code> encodes reserved characters
+(see <code>.reserved?</code>), while <code>.encode</code> does not. The decode methods are
+identical except for the handling of <code>+</code> characters.</p>
+
+<p><span class="flag purple">NOTE</span>  <code><a href="HTTP/Params.html">HTTP::Params</a></code> provides a higher-level API for handling <code>x-www-form-urlencoded</code>
+serialized data.</p>
+
 
 
 
@@ -196,7 +214,7 @@ uri.to_s   <span class="c"># =&gt; &quot;http://foo.com/posts?id=30&amp;limit=5#
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/vladfaust/http-params-serializable/blob/778e98e01f7d39fbf5259654fdb8f700d259adb7/src/http-params-serializable/ext/uri.cr#L5" target="_blank">
+      <a href="https://github.com/vladfaust/http-params-serializable/blob/f9f6b68a7e825f6e5a1a38d957f5d2836440855b/src/http-params-serializable/ext/uri.cr#L5" target="_blank">
         http-params-serializable/ext/uri.cr
       </a>
     
@@ -213,7 +231,7 @@ uri.to_s   <span class="c"># =&gt; &quot;http://foo.com/posts?id=30&amp;limit=5#
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#from_http_param%28value%3AString%29-class-method" class="signature"><strong>.from_http_param</strong>(value : String)</a>
+        <a href="#from_http_param(value:String)-class-method" class="signature"><strong>.from_http_param</strong>(value : String)</a>
         
           <div class="summary"><p>Parse <code><a href="URI.html">URI</a></code> from an HTTP param.</p></div>
         
@@ -227,7 +245,7 @@ uri.to_s   <span class="c"># =&gt; &quot;http://foo.com/posts?id=30&amp;limit=5#
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#to_http_param%28builder%3AHTTP%3A%3AParams%3A%3ABuilder%2Ckey%3AString%29-instance-method" class="signature"><strong>#to_http_param</strong>(builder : HTTP::Params::Builder, key : String)</a>
+        <a href="#to_http_param(builder:HTTP::Params::Builder,key:String)-instance-method" class="signature"><strong>#to_http_param</strong>(builder : HTTP::Params::Builder, key : String)</a>
         
           <div class="summary"><p>Put <code>self</code> as an HTTP param into the <em>builder</em> at <em>key</em>.</p></div>
         
@@ -280,7 +298,7 @@ uri.to_s   <span class="c"># =&gt; &quot;http://foo.com/posts?id=30&amp;limit=5#
         
         def self.<strong>from_http_param</strong>(value : String)
 
-        <a class="method-permalink" href="#from_http_param%28value%3AString%29-class-method">#</a>
+        <a class="method-permalink" href="#from_http_param(value:String)-class-method">#</a>
       </div>
       
         <div class="doc"><p>Parse <code><a href="URI.html">URI</a></code> from an HTTP param.</p></div>
@@ -288,7 +306,7 @@ uri.to_s   <span class="c"># =&gt; &quot;http://foo.com/posts?id=30&amp;limit=5#
       <br/>
       <div>
         
-          [<a href="https://github.com/vladfaust/http-params-serializable/blob/778e98e01f7d39fbf5259654fdb8f700d259adb7/src/http-params-serializable/ext/uri.cr#L17" target="_blank">View source</a>]
+          [<a href="https://github.com/vladfaust/http-params-serializable/blob/f9f6b68a7e825f6e5a1a38d957f5d2836440855b/src/http-params-serializable/ext/uri.cr#L17" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -303,7 +321,7 @@ uri.to_s   <span class="c"># =&gt; &quot;http://foo.com/posts?id=30&amp;limit=5#
         
         def <strong>to_http_param</strong>(builder : HTTP::Params::Builder, key : String)
 
-        <a class="method-permalink" href="#to_http_param%28builder%3AHTTP%3A%3AParams%3A%3ABuilder%2Ckey%3AString%29-instance-method">#</a>
+        <a class="method-permalink" href="#to_http_param(builder:HTTP::Params::Builder,key:String)-instance-method">#</a>
       </div>
       
         <div class="doc"><p>Put <code>self</code> as an HTTP param into the <em>builder</em> at <em>key</em>.</p></div>
@@ -311,7 +329,7 @@ uri.to_s   <span class="c"># =&gt; &quot;http://foo.com/posts?id=30&amp;limit=5#
       <br/>
       <div>
         
-          [<a href="https://github.com/vladfaust/http-params-serializable/blob/778e98e01f7d39fbf5259654fdb8f700d259adb7/src/http-params-serializable/ext/uri.cr#L7" target="_blank">View source</a>]
+          [<a href="https://github.com/vladfaust/http-params-serializable/blob/f9f6b68a7e825f6e5a1a38d957f5d2836440855b/src/http-params-serializable/ext/uri.cr#L7" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -329,7 +347,7 @@ uri.to_s   <span class="c"># =&gt; &quot;http://foo.com/posts?id=30&amp;limit=5#
       <br/>
       <div>
         
-          [<a href="https://github.com/vladfaust/http-params-serializable/blob/778e98e01f7d39fbf5259654fdb8f700d259adb7/src/http-params-serializable/ext/uri.cr#L12" target="_blank">View source</a>]
+          [<a href="https://github.com/vladfaust/http-params-serializable/blob/f9f6b68a7e825f6e5a1a38d957f5d2836440855b/src/http-params-serializable/ext/uri.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
