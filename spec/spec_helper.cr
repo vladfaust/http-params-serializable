@@ -16,7 +16,9 @@ macro assert_raise(object, query, error, message, path)
 end
 
 def escape(string : String)
-  URI.escape(string) do |byte|
-    URI.unreserved?(byte) || byte.chr == '=' || byte.chr == '&'
+  String.build do |io|
+    URI.encode(string, io) do |byte|
+      URI.unreserved?(byte) || byte.chr == '=' || byte.chr == '&'
+    end
   end
 end
