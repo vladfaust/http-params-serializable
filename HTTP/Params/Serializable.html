@@ -274,9 +274,12 @@ It adds a <code>.from_query(query : String)</code> and <code><a href="../../HTTP
         <a class="method-permalink" href="#build_path(path:Array(String)):String-class-method">#</a>
       </div>
       
-        <div class="doc"><p>Build query path from an array of <em>path</em> elements.</p>
+        <div class="doc">
+          
+          <p>Build query path from an array of <em>path</em> elements.</p>
 
-<pre><code>build_path([<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;bar&quot;</span>, <span class="s">&quot;&quot;</span>]) <span class="c"># =&gt; &quot;foo[bar][]&quot;</span></code></pre></div>
+<pre><code>build_path([<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;bar&quot;</span>, <span class="s">&quot;&quot;</span>]) <span class="c"># =&gt; &quot;foo[bar][]&quot;</span></code></pre>
+        </div>
       
       <br/>
       <div>
@@ -294,9 +297,12 @@ It adds a <code>.from_query(query : String)</code> and <code><a href="../../HTTP
         <a class="method-permalink" href="#build_path(*path:*T):StringforallT-class-method">#</a>
       </div>
       
-        <div class="doc"><p>Build query path from a tuple of <em>path</em> elements.</p>
+        <div class="doc">
+          
+          <p>Build query path from a tuple of <em>path</em> elements.</p>
 
-<pre><code>build_path(<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;bar&quot;</span>, <span class="s">&quot;&quot;</span>) <span class="c"># =&gt; &quot;foo[bar][]&quot;</span></code></pre></div>
+<pre><code>build_path(<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;bar&quot;</span>, <span class="s">&quot;&quot;</span>) <span class="c"># =&gt; &quot;foo[bar][]&quot;</span></code></pre>
+        </div>
       
       <br/>
       <div>
@@ -314,9 +320,12 @@ It adds a <code>.from_query(query : String)</code> and <code><a href="../../HTTP
         <a class="method-permalink" href="#split_path(path:String):Array(String)-class-method">#</a>
       </div>
       
-        <div class="doc"><p>Split query <em>path</em> into path elements.</p>
+        <div class="doc">
+          
+          <p>Split query <em>path</em> into path elements.</p>
 
-<pre><code><span class="s">&quot;foo[bar][]&quot;</span>.split <span class="c"># =&gt; [&quot;foo&quot;, &quot;bar&quot;, &quot;&quot;]</span></code></pre></div>
+<pre><code><span class="s">&quot;foo[bar][]&quot;</span>.split <span class="c"># =&gt; [&quot;foo&quot;, &quot;bar&quot;, &quot;&quot;]</span></code></pre>
+        </div>
       
       <br/>
       <div>
@@ -339,8 +348,11 @@ It adds a <code>.from_query(query : String)</code> and <code><a href="../../HTTP
         <a class="method-permalink" href="#to_http_param(builder:Builder,key:String?=nil)-instance-method">#</a>
       </div>
       
-        <div class="doc"><p>Serialalize <code>self</code> into an HTTP params query with the <em>builder</em> at <em>key</em>.
-See <code><a href="../../HTTP/Params/Serializable.html#to_query:String-instance-method">#to_query</a></code> for instance variable rules.</p></div>
+        <div class="doc">
+          
+          <p>Serialalize <code>self</code> into an HTTP params query with the <em>builder</em> at <em>key</em>.
+See <code><a href="../../HTTP/Params/Serializable.html#to_query:String-instance-method">#to_query</a></code> for instance variable rules.</p>
+        </div>
       
       <br/>
       <div>
@@ -358,9 +370,12 @@ See <code><a href="../../HTTP/Params/Serializable.html#to_query:String-instance-
         <a class="method-permalink" href="#to_query:String-instance-method">#</a>
       </div>
       
-        <div class="doc"><p>Serialalize <code>self</code> into an HTTP params query, returning a <code>String</code>.
+        <div class="doc">
+          
+          <p>Serialalize <code>self</code> into an HTTP params query, returning a <code>String</code>.
 Instance variables are by default seralized under camelCased keys,
-unless explicitly specified with <code>@[<a href="../../HTTP/Param.html">HTTP::Param</a>(key: "mykey")</code>.</p></div>
+unless explicitly specified with <code>@[<a href="../../HTTP/Param.html">HTTP::Param</a>(key: "mykey")</code>.</p>
+        </div>
       
       <br/>
       <div>

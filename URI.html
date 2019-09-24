@@ -180,6 +180,26 @@ uri.host   <span class="c"># =&gt; &quot;foo.com&quot;</span>
 uri.query  <span class="c"># =&gt; &quot;id=30&amp;limit=5&quot;</span>
 uri.to_s   <span class="c"># =&gt; &quot;http://foo.com/posts?id=30&amp;limit=5#time=1305298413&quot;</span></code></pre>
 
+<h2>Resolution and Relativization</h2>
+
+<p><em>Resolution</em> is the process of resolving one URI against another, <em>base</em> URI.
+The resulting URI is constructed from components of both URIs in the manner specified by
+<a href="https://tools.ietf.org/html/rfc3986#section-5.2.2" target="_blank">RFC 3986 section 5.2</a>, taking components
+from the base URI for those not specified in the original.
+For hierarchical URIs, the path of the original is resolved against the path of the base
+and then normalized. See <code>#resolve</code> for examples.</p>
+
+<p><em>Relativization</em> is the inverse of resolution as that it procudes an URI that
+resolves to the original when resolved against the base.</p>
+
+<p>For normalized URIs, the following is true:</p>
+
+<pre><code>a.relativize(a.resolve(b)) <span class="c"># =&gt; b</span>
+a.resolve(a.relativize(b)) <span class="c"># =&gt; b</span></code></pre>
+
+<p>This operation is often useful when constructing a document containing URIs that must
+be made relative to the base URI of the document wherever possible.</p>
+
 <h1>URL Encoding</h1>
 
 <p>This class provides a number of methods for encoding and decoding strings using
@@ -301,7 +321,10 @@ serialized data.</p>
         <a class="method-permalink" href="#from_http_param(value:String)-class-method">#</a>
       </div>
       
-        <div class="doc"><p>Parse <code><a href="URI.html">URI</a></code> from an HTTP param.</p></div>
+        <div class="doc">
+          
+          <p>Parse <code><a href="URI.html">URI</a></code> from an HTTP param.</p>
+        </div>
       
       <br/>
       <div>
@@ -324,7 +347,10 @@ serialized data.</p>
         <a class="method-permalink" href="#to_http_param(builder:HTTP::Params::Builder,key:String)-instance-method">#</a>
       </div>
       
-        <div class="doc"><p>Put <code>self</code> as an HTTP param into the <em>builder</em> at <em>key</em>.</p></div>
+        <div class="doc">
+          
+          <p>Put <code>self</code> as an HTTP param into the <em>builder</em> at <em>key</em>.</p>
+        </div>
       
       <br/>
       <div>
@@ -342,7 +368,10 @@ serialized data.</p>
         <a class="method-permalink" href="#to_http_param-instance-method">#</a>
       </div>
       
-        <div class="doc"><p>Return <code>self</code> as an HTTP param string.</p></div>
+        <div class="doc">
+          
+          <p>Return <code>self</code> as an HTTP param string.</p>
+        </div>
       
       <br/>
       <div>
