@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.30.1">
+<meta name="generator" content="Crystal Docs 0.31.1">
 
-
-<link href="css/style.css" rel="stylesheet" type="text/css">
-
+<link href="css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/doc.js"></script>
-<script type="text/javascript">
-  CrystalDoc.base_path = "";
-</script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
 
   <meta id="repository-name" content="github.com/vladfaust/http-params-serializable">
   <title>Time - github.com/vladfaust/http-params-serializable</title>
+  <script type="text/javascript">
+    CrystalDoc.base_path = "";
+  </script>
 </head>
 <body>
 
@@ -160,7 +164,14 @@
 
 
 
-  <h2>Overview</h2>
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
 
   <p><code><a href="Time.html">Time</a></code> represents a date-time instant in
 <a href="https://www.w3.org/International/articles/definitions-time/#incremental_time" target="_blank">incremental time</a>
@@ -177,7 +188,11 @@ nanosecond-of-second with value range <code>0..999_999_999</code>.</p>
 <p>The supported date range is <code>0001-01-01 00:00:00.0</code> to
 <code>9999-12-31 23:59:59.999_999_999</code> in any local time zone.</p>
 
-<h3>Telling the Time</h3>
+<h3><a id="telling-the-time" class="anchor" href="#telling-the-time">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Telling the Time</h3>
 
 <p>There are several methods to retrieve a <code><a href="Time.html">Time</a></code> instance representing the
 current time:</p>
@@ -190,7 +205,11 @@ current time:</p>
 local time zone when formatting for user display, unless the domain logic
 requires having a specific time zone (for example for calendaric operations).</p>
 
-<h3>Creating a Specific Instant</h3>
+<h3><a id="creating-a-specific-instant" class="anchor" href="#creating-a-specific-instant">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Creating a Specific Instant</h3>
 
 <p><code><a href="Time.html">Time</a></code> instances representing a specific instant can be created by
 <code>.utc</code> or <code>.new</code> with the date-time specified as individual arguments:</p>
@@ -203,7 +222,11 @@ time.to_s <span class="c"># =&gt; 2016-02-15 10:20:30 +01:00 Europe/Berlin</span
 time <span class="o">=</span> <span class="t">Time</span>.utc(<span class="n">2016</span>, <span class="n">2</span>, <span class="n">15</span>)
 time.to_s <span class="c"># =&gt; 2016-02-15 00:00:00 UTC</span></code></pre>
 
-<h3>Retrieving Time Information</h3>
+<h3><a id="retrieving-time-information" class="anchor" href="#retrieving-time-information">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Retrieving Time Information</h3>
 
 <p>Each <code><a href="Time.html">Time</a></code> instance allows querying calendar data:</p>
 
@@ -228,7 +251,11 @@ predicate methods, delegating to <code>#day_of_week</code>:</p>
 <span class="c"># ...</span>
 time.sunday? <span class="c"># =&gt; false</span></code></pre>
 
-<h3>Time Zones</h3>
+<h3><a id="time-zones" class="anchor" href="#time-zones">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Time Zones</h3>
 
 <p>Each time is attached to a specific time zone, represented by a <code>Location</code>
 (see <code>#location</code>).
@@ -275,7 +302,11 @@ time.to_local <span class="c"># equals time.in(Location.local)</span></code></pr
 the same local date-time (wall clock) which results in a different instant
 on the time line.</p>
 
-<h3>Formatting and Parsing Time</h3>
+<h3><a id="formatting-and-parsing-time" class="anchor" href="#formatting-and-parsing-time">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Formatting and Parsing Time</h3>
 
 <p>To make date-time instances exchangeable between different computer systems
 or readable to humans, they are usually converted to and from a string
@@ -294,7 +325,11 @@ information in a string, according to a specified pattern:</p>
 
 <p>See <code>Time::Format</code> for all directives.</p>
 
-<h3>Calculations</h3>
+<h3><a id="calculations" class="anchor" href="#calculations">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Calculations</h3>
 
 <pre><code><span class="t">Time</span>.utc(<span class="n">2015</span>, <span class="n">10</span>, <span class="n">10</span>) <span class="o">-</span> <span class="n">5</span>.days <span class="c"># =&gt; 2015-10-05 00:00:00 +00:00</span>
 
@@ -303,7 +338,11 @@ span.days          <span class="c"># =&gt; 30</span>
 span.total_hours   <span class="c"># =&gt; 720</span>
 span.total_minutes <span class="c"># =&gt; 43200</span></code></pre>
 
-<h2>Measuring Time</h2>
+<h2><a id="measuring-time" class="anchor" href="#measuring-time">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Measuring Time</h2>
 
 <p>The typical time representation provided by the operating system is based on
 a "wall clock" which is subject to changes for clock synchronization.
@@ -348,11 +387,18 @@ elapsed_time <span class="c"># =&gt; 20.milliseconds (approximately)</span></cod
 
 
 
-  <h2>Included Modules</h2>
+  <h2>
+    <a id="included-modules" class="anchor" href="#included-modules">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Included Modules
+  </h2>
   <ul class="other-types-list">
-  
-    <li class="other-type">Comparable(<a href="Time.html">Time</a>)</li>
-  
+    
+      <li class="other-type">Comparable(<a href="Time.html">Time</a>)</li>
+    
   </ul>
 
 
@@ -364,7 +410,14 @@ elapsed_time <span class="c"># =&gt; 20.milliseconds (approximately)</span></cod
 
 
 
-  <h2>Defined in:</h2>
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
   
     
       <a href="https://github.com/vladfaust/http-params-serializable/blob/cf36c294e665dbb7b1026a15304853cc838f149b/src/http-params-serializable/ext/time/epoch_converter.cr#L4" target="_blank">

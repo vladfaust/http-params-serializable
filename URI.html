@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.30.1">
+<meta name="generator" content="Crystal Docs 0.31.1">
 
-
-<link href="css/style.css" rel="stylesheet" type="text/css">
-
+<link href="css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/doc.js"></script>
-<script type="text/javascript">
-  CrystalDoc.base_path = "";
-</script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
 
   <meta id="repository-name" content="github.com/vladfaust/http-params-serializable">
   <title>URI - github.com/vladfaust/http-params-serializable</title>
+  <script type="text/javascript">
+    CrystalDoc.base_path = "";
+  </script>
 </head>
 <body>
 
@@ -160,7 +164,14 @@
 
 
 
-  <h2>Overview</h2>
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
 
   <p>This class represents a URI reference as defined by <a href="https://www.ietf.org/rfc/rfc3986.txt" target="_blank">RFC 3986: Uniform Resource Identifier
 (URI): Generic Syntax</a>.</p>
@@ -180,7 +191,11 @@ uri.host   <span class="c"># =&gt; &quot;foo.com&quot;</span>
 uri.query  <span class="c"># =&gt; &quot;id=30&amp;limit=5&quot;</span>
 uri.to_s   <span class="c"># =&gt; &quot;http://foo.com/posts?id=30&amp;limit=5#time=1305298413&quot;</span></code></pre>
 
-<h2>Resolution and Relativization</h2>
+<h2><a id="resolution-and-relativization" class="anchor" href="#resolution-and-relativization">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Resolution and Relativization</h2>
 
 <p><em>Resolution</em> is the process of resolving one URI against another, <em>base</em> URI.
 The resulting URI is constructed from components of both URIs in the manner specified by
@@ -200,7 +215,11 @@ a.resolve(a.relativize(b)) <span class="c"># =&gt; b</span></code></pre>
 <p>This operation is often useful when constructing a document containing URIs that must
 be made relative to the base URI of the document wherever possible.</p>
 
-<h1>URL Encoding</h1>
+<h1><a id="url-encoding" class="anchor" href="#url-encoding">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>URL Encoding</h1>
 
 <p>This class provides a number of methods for encoding and decoding strings using
 URL Encoding (also known as Percent Encoding) as defined in <a href="https://www.ietf.org/rfc/rfc3986.txt" target="_blank">RFC 3986</a>
@@ -231,7 +250,14 @@ serialized data.</p>
 
 
 
-  <h2>Defined in:</h2>
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
   
     
       <a href="https://github.com/vladfaust/http-params-serializable/blob/cf36c294e665dbb7b1026a15304853cc838f149b/src/http-params-serializable/ext/uri.cr#L5" target="_blank">
@@ -247,7 +273,14 @@ serialized data.</p>
 
 
 
-  <h2>Class Method Summary</h2>
+  <h2>
+    <a id="class-method-summary" class="anchor" href="#class-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Summary
+  </h2>
   <ul class="list-summary">
     
       <li class="entry-summary">
@@ -261,7 +294,14 @@ serialized data.</p>
 
 
 
-  <h2>Instance Method Summary</h2>
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
   <ul class="list-summary">
     
       <li class="entry-summary">
@@ -311,7 +351,14 @@ serialized data.</p>
 
 
 
-  <h2>Class Method Detail</h2>
+  <h2>
+    <a id="class-method-detail" class="anchor" href="#class-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Detail
+  </h2>
   
     <div class="entry-detail" id="from_http_param(value:String)-class-method">
       <div class="signature">
@@ -337,7 +384,14 @@ serialized data.</p>
 
 
 
-  <h2>Instance Method Detail</h2>
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
   
     <div class="entry-detail" id="to_http_param(builder:HTTP::Params::Builder,key:String)-instance-method">
       <div class="signature">

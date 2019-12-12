@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.30.1">
+<meta name="generator" content="Crystal Docs 0.31.1">
 
-
-<link href="css/style.css" rel="stylesheet" type="text/css">
-
+<link href="css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/doc.js"></script>
-<script type="text/javascript">
-  CrystalDoc.base_path = "";
-</script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
 
   <meta id="repository-name" content="github.com/vladfaust/http-params-serializable">
   <title>README - github.com/vladfaust/http-params-serializable</title>
+  <script type="text/javascript">
+  CrystalDoc.base_path = "";
+  </script>
 </head>
 <body>
 
@@ -148,7 +152,11 @@
 
 
 <div class="main-content">
-<h1>HTTP::Params::Serializable</h1>
+<h1><a id="httpparamsserializable" class="anchor" href="#httpparamsserializable">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>HTTP::Params::Serializable</h1>
 
 <p><a href="https://crystal-lang.org/" target="_blank"><img src="https://img.shields.io/badge/built%20with-crystal-000000.svg?style=flat-square" alt="Built with Crystal"/></a>
 <a href="https://travis-ci.com/vladfaust/http-params-serializable" target="_blank"><img src="https://img.shields.io/travis/com/vladfaust/http-params-serializable/master.svg?style=flat-square" alt="Build status"/></a>
@@ -161,7 +169,11 @@
 
 <p>The HTTP params serialization module for <a href="https://crystal-lang.org/" target="_blank">Crystal</a>.</p>
 
-<h2>Supporters</h2>
+<h2><a id="supporters" class="anchor" href="#supporters">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Supporters</h2>
 
 <p>Thanks to all my patrons, I can build and support beautiful Open Source Software! 🙏</p>
 
@@ -171,11 +183,19 @@
 
 <p><a href="https://www.patreon.com/vladfaust" target="_blank"><img src="https://vladfaust.com/img/patreon-small.svg" alt="Become Patron"/></a></p>
 
-<h2>About</h2>
+<h2><a id="about" class="anchor" href="#about">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>About</h2>
 
 <p>This module is intended to provide a simple and convenient way to make an object to safely initialize from an HTTP params query (be it an URL query or <code>"application/x-www-form-urlencoded"</code> body). It tries to have an API almost the same as existing <a href="https://crystal-lang.org/api/0.27.0/JSON/Serializable.html" target="_blank"><code>JSON::Serializable</code></a> and <a href="https://crystal-lang.org/api/0.27.0/YAML/Serializable.html" target="_blank"><code>YAML::Serializable</code></a> modules, thus allowing to serialize infinitely-nested structures, including Arrays and Hashes.</p>
 
-<h2>Installation</h2>
+<h2><a id="installation" class="anchor" href="#installation">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Installation</h2>
 
 <ol><li>Add the dependency to your <code>shard.yml</code>:</li></ol>
 
@@ -186,7 +206,11 @@
 
 <ol><li>Run <code>shards install</code></li></ol>
 
-<h2>Usage</h2>
+<h2><a id="usage" class="anchor" href="#usage">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Usage</h2>
 
 <p>Simple example:</p>
 
@@ -273,11 +297,19 @@ params <span class="o">=</span> <span class="t">Params</span>.from_query(<span c
 pp params.time <span class="c"># =&gt; 2018-12-16 11:13:26.0 UTC</span>
 pp params.to_query <span class="c"># =&gt; &quot;the___Time=1544958806&quot;</span></code></pre>
 
-<h3>Custom serialization rules</h3>
+<h3><a id="custom-serialization-rules" class="anchor" href="#custom-serialization-rules">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Custom serialization rules</h3>
 
 <p>If you want to know-how to make custom objects serializable, read <a href="https://github.com/vladfaust/http-params-serializable/wiki/Custom-serialization-rules" target="_blank">the Custom serialization rules Wiki page</a>.</p>
 
-<h3>Usage with <a href="https://onyxframework.org" target="_blank">Onyx::REST</a></h3>
+<h3><a id="usage-with-onyxresthttpsonyxframework.org" class="anchor" href="#usage-with-onyxresthttpsonyxframework.org">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Usage with <a href="https://onyxframework.org" target="_blank">Onyx::REST</a></h3>
 
 <p><a href="https://github.com/onyxframework/rest" target="_blank">Onyx::REST</a> comes with an Action module, which implements common param sources parsing, which uses this shard under the hood:</p>
 
@@ -321,7 +353,11 @@ pp params.to_query <span class="c"># =&gt; &quot;the___Time=1544958806&quot;</sp
 <span class="t">Onyx</span>.put <span class="s">&quot;/users/:id&quot;</span>, <span class="t">UpdateUser</span>
 <span class="t">Onyx</span>.listen</code></pre>
 
-<h3>Usage with <a href="http://kemalcr.com" target="_blank">Kemal</a></h3>
+<h3><a id="usage-with-kemalhttpkemalcr.com" class="anchor" href="#usage-with-kemalhttpkemalcr.com">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Usage with <a href="http://kemalcr.com" target="_blank">Kemal</a></h3>
 
 <p>It's pretty simple to make your Kemal applications more safe:</p>
 
@@ -358,15 +394,27 @@ $ curl http://localhost:3000?id=-1
 $ curl http://localhost:3000?id=foo
 Parameter "id" cannot be cast from "foo" to Int32</code></pre>
 
-<h2>Development</h2>
+<h2><a id="development" class="anchor" href="#development">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Development</h2>
 
 <p><code>crystal spec</code> and you're good to go.</p>
 
-<h2>Contributing</h2>
+<h2><a id="contributing" class="anchor" href="#contributing">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Contributing</h2>
 
 <ol><li>Fork it (&lt;https://github.com/vladfaust/http-params-serializable/fork>)</li><li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li><li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li><li>Push to the branch (<code>git push origin my-new-feature</code>)</li><li>Create a new Pull Request</li></ol>
 
-<h2>Contributors</h2>
+<h2><a id="contributors" class="anchor" href="#contributors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Contributors</h2>
 
 <ul><li><a href="https://github.com/vladfaust" target="_blank">Vlad Faust</a> - creator and maintainer</li></ul>
 </div>
