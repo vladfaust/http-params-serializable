@@ -13,6 +13,6 @@ class String
 
   # Parse `String` from an HTTP param (basically return itself).
   def self.from_http_param(value : String)
-    return value
+    value
   end
 end

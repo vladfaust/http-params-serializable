@@ -1,9 +1,8 @@
 name: http-params-serializable
-version: 0.4.0
+version: 0.4.1
+crystal: ">= 0.35"
 
 authors:
   - Vlad Faust <mail@vladfaust.com>
-
-crystal: 0.30.1
 
 license: MIT

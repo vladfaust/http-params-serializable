@@ -1,3 +1,6 @@
+require "uri"
+require "http"
+
 module HTTP
   # An HTTP parameter annotation.
   #

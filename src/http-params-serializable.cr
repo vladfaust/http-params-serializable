@@ -89,9 +89,9 @@ module HTTP::Params::Serializable
   # Instance variables are by default seralized under camelCased keys,
   # unless explicitly specified with `@[HTTP::Param(key: "mykey")`.
   def to_query : String
-    builder = HTTP::Params::Builder.new
-    to_http_param(builder)
-    builder.to_s
+    HTTP::Params.build do |builder|
+      to_http_param(builder)
+    end.to_s
   end
 
   macro included

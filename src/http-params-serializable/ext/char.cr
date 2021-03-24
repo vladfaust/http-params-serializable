@@ -15,6 +15,6 @@ struct Char
   def self.from_http_param(value : String)
     chars = value.chars
     raise TypeCastError.new if chars.size != 1
-    return chars.first
+    chars.first
   end
 end
